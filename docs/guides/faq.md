@@ -8,7 +8,7 @@
 
 ### What are the system requirements?
 
-- Go 1.22 or later
+- Go 1.21 or later
 - No external dependencies required
 
 ### How do I install proton?

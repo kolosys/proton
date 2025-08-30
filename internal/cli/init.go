@@ -134,37 +134,38 @@ func createDefaultConfig(projectPath string) *config.Config {
 }
 
 func autoDetectProjectInfo(cfg *config.Config, projectPath string) error {
-	// Try to read go.mod for module information
-	goModPath := filepath.Join(projectPath, "go.mod")
-	if data, err := os.ReadFile(goModPath); err == nil {
-		lines := strings.Split(string(data), "\n")
-		for _, line := range lines {
-			if strings.HasPrefix(line, "module ") {
-				modulePath := strings.TrimSpace(strings.TrimPrefix(line, "module"))
-				cfg.Repository.ImportPath = modulePath
-
-				// Extract repository info from module path
-				if strings.Contains(modulePath, "github.com/") {
-					parts := strings.Split(modulePath, "/")
-					if len(parts) >= 3 {
-						cfg.Repository.Owner = parts[1]
-						cfg.Repository.Name = parts[2]
-					}
-				}
-				break
-			}
-		}
-	}
-
-	// Try to get Git information
+	// Try to get Git information first (most accurate for repository info)
 	if err := detectGitInfo(cfg, projectPath); err == nil {
 		// Git detection succeeded, use Git info as primary source
 		if cfg.Repository.Owner != "" && cfg.Repository.Name != "" {
 			cfg.Repository.URL = fmt.Sprintf("https://github.com/%s/%s", cfg.Repository.Owner, cfg.Repository.Name)
+			cfg.Repository.ImportPath = fmt.Sprintf("github.com/%s/%s", cfg.Repository.Owner, cfg.Repository.Name)
 			cfg.GitBook.Title = cfg.Repository.Name
 		}
 	} else {
-		// Fallback to go.mod derived info
+		// Fallback to go.mod for module information
+		goModPath := filepath.Join(projectPath, "go.mod")
+		if data, err := os.ReadFile(goModPath); err == nil {
+			lines := strings.Split(string(data), "\n")
+			for _, line := range lines {
+				if strings.HasPrefix(line, "module ") {
+					modulePath := strings.TrimSpace(strings.TrimPrefix(line, "module"))
+					cfg.Repository.ImportPath = modulePath
+
+					// Extract repository info from module path
+					if strings.Contains(modulePath, "github.com/") {
+						parts := strings.Split(modulePath, "/")
+						if len(parts) >= 3 {
+							cfg.Repository.Owner = parts[1]
+							cfg.Repository.Name = parts[2]
+						}
+					}
+					break
+				}
+			}
+		}
+
+		// Set computed values from go.mod derived info
 		if cfg.Repository.Owner != "" && cfg.Repository.Name != "" {
 			cfg.Repository.URL = fmt.Sprintf("https://github.com/%s/%s", cfg.Repository.Owner, cfg.Repository.Name)
 			cfg.GitBook.Title = cfg.Repository.Name

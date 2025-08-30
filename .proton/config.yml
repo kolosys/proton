@@ -6,7 +6,7 @@ repository:
     branch: main
     url: https://github.com/kolosys/proton
 output:
-    directory: docs
+    directory: D:\Projects\kolosys\proton\docs
     clean: true
     gitbook_config: true
 discovery:
@@ -18,6 +18,7 @@ discovery:
             - ./vendor/...
             - ./test/...
             - ./.git/...
+            - '**/*_test.go'
         manual_packages: []
     api_generation:
         enabled: true

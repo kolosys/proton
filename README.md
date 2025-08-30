@@ -224,7 +224,7 @@ Proton comes with built-in templates that work great out of the box, but you can
     deploy-to-branch: "gh-pages"
     auto-commit: true
     commit-message: "📚 Update documentation"
-    go-version: "1.22"
+    go-version: "1.24"
     proton-version: "latest"
 ```
 
@@ -239,7 +239,7 @@ Proton comes with built-in templates that work great out of the box, but you can
 | `deploy-to-branch` | Deploy to specific branch  | ``                                         |
 | `auto-commit`      | Auto-commit changes        | `false`                                    |
 | `commit-message`   | Commit message             | `📚 Update documentation (auto-generated)` |
-| `go-version`       | Go version to use          | `1.22`                                     |
+| `go-version`       | Go version to use          | `1.24`                                     |
 | `proton-version`   | Proton version to install  | `latest`                                   |
 | `token`            | GitHub token for auth      | `${{ github.token }}`                      |
 
@@ -296,7 +296,7 @@ discovery:
 
 ### Prerequisites
 
-- Go 1.22 or later
+- Go 1.21 or later
 - Git
 
 ### Building from Source
