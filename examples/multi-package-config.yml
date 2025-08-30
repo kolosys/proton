@@ -1,0 +1,92 @@
+# Multi-package Proton configuration example
+# For projects with multiple packages organized in subdirectories
+
+repository:
+  name: multi-library
+  owner: myorg
+  description: "A comprehensive multi-package Go library"
+  import_path: github.com/myorg/multi-library
+  branch: main
+
+output:
+  directory: documentation
+  clean: true
+  gitbook_config: true
+
+discovery:
+  packages:
+    auto_discover: true
+    include_patterns:
+      - "./pkg/..."
+      - "./cmd/..."
+      - "./internal/public/..."
+    exclude_patterns:
+      - "./vendor/..."
+      - "./test/..."
+      - "./internal/private/..."
+      - "./cmd/*/testdata/..."
+
+    # You can also manually specify packages for better control
+    manual_packages:
+      - name: core
+        path: ./pkg/core
+        description: Core functionality and interfaces
+      - name: utils
+        path: ./pkg/utils
+        description: Utility functions and helpers
+      - name: cli
+        path: ./cmd/mycli
+        description: Command-line interface
+
+  api_generation:
+    enabled: true
+    include_unexported: false
+    include_tests: false
+    include_examples: true
+
+  examples:
+    enabled: true
+    auto_discover: true
+    directories:
+      - ./examples
+      - ./pkg/*/examples
+
+  guides:
+    enabled: true
+    include_contributing: true
+    include_faq: true
+    custom_guides:
+      - name: architecture
+        file: ./docs/architecture.md
+        title: Architecture Overview
+      - name: deployment
+        file: ./docs/deployment.md
+        title: Deployment Guide
+
+templates:
+  # Use custom templates for branding
+  directory: ./docs/templates
+  custom_templates:
+    - name: index
+      file: ./docs/templates/custom-index.md
+
+gitbook:
+  title: Multi-Library Documentation
+  description: Complete documentation for the multi-package library
+  theme: default
+  plugins:
+    - search
+    - sharing
+    - mermaid
+
+metadata:
+  version: v2.1.0
+  go_version: "1.22"
+  author: "My Organization"
+  license: Apache-2.0
+
+generation:
+  date_format: "2006-01-02 15:04:05"
+  include_generated_notice: true
+  include_toc: true
+  max_depth: 4

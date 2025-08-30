@@ -1,0 +1,56 @@
+# Basic Proton configuration example
+# Save as .proton/config.yml in your project root
+
+repository:
+  name: my-library
+  owner: myuser
+  description: "A fantastic Go library for solving problems"
+  import_path: github.com/myuser/my-library
+  branch: main
+
+output:
+  directory: docs
+  clean: true
+  gitbook_config: true
+
+discovery:
+  packages:
+    auto_discover: true
+    include_patterns:
+      - "./..."
+    exclude_patterns:
+      - "./vendor/..."
+      - "./test/..."
+      - "./.git/..."
+
+  api_generation:
+    enabled: true
+    include_unexported: false
+    include_tests: false
+    include_examples: true
+
+  examples:
+    enabled: true
+    auto_discover: true
+
+  guides:
+    enabled: true
+    include_contributing: true
+    include_faq: true
+
+gitbook:
+  title: My Library Documentation
+  description: Complete documentation for My Library
+  theme: default
+
+metadata:
+  version: latest
+  go_version: "1.22"
+  author: "My Name"
+  license: MIT
+
+generation:
+  date_format: "2006-01-02"
+  include_generated_notice: true
+  include_toc: true
+  max_depth: 3

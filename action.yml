@@ -1,0 +1,203 @@
+name: "Proton Documentation Generator"
+description: "Generate comprehensive GitBook documentation for Go libraries"
+author: "Kolosys"
+
+branding:
+  icon: "book-open"
+  color: "blue"
+
+inputs:
+  config-file:
+    description: "Path to proton configuration file"
+    required: false
+    default: ".proton/config.yml"
+
+  output-directory:
+    description: "Output directory for generated documentation"
+    required: false
+    default: "docs"
+
+  clean-output:
+    description: "Clean output directory before generation. When false, only auto-generated content (api-reference, examples, packages, README.md, SUMMARY.md) is cleaned, preserving custom content in guides and other directories."
+    required: false
+    default: "true"
+
+  go-version:
+    description: "Go version to use"
+    required: false
+    default: "1.22"
+
+  proton-version:
+    description: "Proton version to install"
+    required: false
+    default: "latest"
+
+  token:
+    description: "GitHub token for authentication (GITHUB_TOKEN, PAT, or GitHub App token)"
+    required: false
+    default: "${{ github.token }}"
+
+  deploy-to-pages:
+    description: "Deploy documentation to GitHub Pages (optional)"
+    required: false
+    default: "false"
+
+  deploy-to-branch:
+    description: "Branch to deploy documentation to (optional)"
+    required: false
+    default: ""
+
+  auto-commit:
+    description: "Automatically commit generated documentation"
+    required: false
+    default: "false"
+
+  commit-message:
+    description: "Commit message for auto-commit"
+    required: false
+    default: "📚 Update documentation (auto-generated)"
+
+outputs:
+  docs-path:
+    description: "Path to generated documentation"
+    value: ${{ steps.generate.outputs.docs-path }}
+
+  pages-url:
+    description: "URL of deployed GitHub Pages (if deployed)"
+    value: ${{ steps.deploy-pages.outputs.page_url }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ inputs.token }}
+        fetch-depth: 0
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: ${{ inputs.go-version }}
+
+    - name: Install Proton
+      shell: bash
+      run: |
+        if [ "${{ inputs.proton-version }}" = "latest" ]; then
+          go install github.com/kolosys/proton/cmd/proton@latest
+        else
+          go install github.com/kolosys/proton/cmd/proton@${{ inputs.proton-version }}
+        fi
+
+    - name: Create default config if not exists
+      shell: bash
+      run: |
+        if [ ! -f "${{ inputs.config-file }}" ]; then
+          mkdir -p $(dirname "${{ inputs.config-file }}")
+          cat > "${{ inputs.config-file }}" << 'EOF'
+        repository:
+          name: ${{ github.event.repository.name }}
+          owner: ${{ github.repository_owner }}
+          description: ${{ github.event.repository.description || github.event.repository.name }}
+          import_path: github.com/${{ github.repository }}
+          branch: ${{ github.ref_name }}
+
+        output:
+          directory: ${{ inputs.output-directory }}
+          clean: false
+          gitbook_config: true
+
+        discovery:
+          packages:
+            auto_discover: true
+            exclude_patterns: ["./vendor/...", "./test/...", "./.git/...", "**/*_test.go"]
+          api_generation:
+            enabled: true
+            include_unexported: false
+            include_examples: true
+          examples:
+            enabled: true
+            auto_discover: true
+          guides:
+            enabled: true
+            include_contributing: true
+            include_faq: true
+
+        gitbook:
+          title: ${{ github.event.repository.name }}
+          description: ${{ github.event.repository.description || github.event.repository.name }}
+        EOF
+        fi
+
+    - name: Generate documentation
+      id: generate
+      shell: bash
+      run: |
+        # If clean is false, selectively clean only auto-generated directories
+        if [ "${{ inputs.clean-output }}" = "false" ]; then
+          echo "Selective cleaning: removing only auto-generated content..."
+          # Remove auto-generated directories that should be regenerated
+          for dir in "api-reference" "examples" "packages"; do
+            if [ -d "${{ inputs.output-directory }}/$dir" ]; then
+              echo "Removing auto-generated directory: $dir"
+              rm -rf "${{ inputs.output-directory }}/$dir"
+            fi
+          done
+          # Remove auto-generated files
+          for file in "README.md" "SUMMARY.md"; do
+            if [ -f "${{ inputs.output-directory }}/$file" ]; then
+              echo "Removing auto-generated file: $file"
+              rm -f "${{ inputs.output-directory }}/$file"
+            fi
+          done
+        fi
+
+        proton generate \
+          --config "${{ inputs.config-file }}" \
+          --output "${{ inputs.output-directory }}" \
+          --clean="false" \
+          --verbose
+
+        # Move .gitbook.yml to root for GitBook compatibility
+        if [ -f "${{ inputs.output-directory }}/.gitbook.yml" ]; then
+          mv "${{ inputs.output-directory }}/.gitbook.yml" ./.gitbook.yml
+        fi
+
+        echo "docs-path=${{ inputs.output-directory }}" >> $GITHUB_OUTPUT
+
+    - name: Setup Pages
+      if: inputs.deploy-to-pages == 'true'
+      uses: actions/configure-pages@v3
+
+    - name: Upload Pages artifact
+      if: inputs.deploy-to-pages == 'true'
+      uses: actions/upload-pages-artifact@v2
+      with:
+        path: ${{ inputs.output-directory }}
+
+    - name: Deploy to GitHub Pages
+      if: inputs.deploy-to-pages == 'true'
+      id: deploy-pages
+      uses: actions/deploy-pages@v2
+
+    - name: Deploy to branch
+      if: inputs.deploy-to-branch != ''
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: ${{ inputs.commit-message }}
+        branch: ${{ inputs.deploy-to-branch }}
+        file_pattern: "${{ inputs.output-directory }}/**"
+        commit_author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
+        push_options: "--force-with-lease"
+        create_branch: true
+        skip_dirty_check: true
+        disable_globbing: true
+
+    - name: Auto-commit documentation
+      if: inputs.auto-commit == 'true' && inputs.deploy-to-branch == ''
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: ${{ inputs.commit-message }}
+        file_pattern: "${{ inputs.output-directory }}/**"
+        commit_author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
+        disable_globbing: true

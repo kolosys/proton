@@ -1,0 +1,56 @@
+repository:
+    name: ""
+    owner: ""
+    description: ""
+    import_path: ""
+    branch: main
+    url: ""
+output:
+    directory: docs
+    clean: true
+    gitbook_config: true
+discovery:
+    packages:
+        auto_discover: true
+        include_patterns:
+            - ./...
+        exclude_patterns:
+            - ./vendor/...
+            - ./test/...
+            - ./.git/...
+        manual_packages: []
+    api_generation:
+        enabled: true
+        include_unexported: false
+        include_tests: false
+        include_examples: true
+    examples:
+        enabled: true
+        auto_discover: true
+        directories: []
+    guides:
+        enabled: true
+        include_contributing: true
+        include_faq: true
+        custom_guides: []
+templates:
+    directory: ""
+    custom_templates: []
+gitbook:
+    title: ""
+    description: ""
+    theme: default
+    plugins: []
+    structure:
+        readme: README.md
+        summary: SUMMARY.md
+metadata:
+    version: latest
+    go_version: ""
+    author: ""
+    license: MIT
+generation:
+    date_format: "2006-01-02"
+    include_generated_notice: true
+    include_toc: true
+    max_depth: 3

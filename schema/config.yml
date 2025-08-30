@@ -1,0 +1,72 @@
+# Configuration schema for Proton documentation generator
+# This file defines the structure for .proton/config.yml
+
+repository:
+  name: string           # Repository name (e.g., "proton")
+  owner: string          # GitHub username/org (e.g., "kolosys")
+  description: string    # Repository description
+  import_path: string    # Go module import path (e.g., "github.com/kolosys/proton")
+  branch: string         # Default branch (default: "main")
+  url: string           # Repository URL (auto-generated if not provided)
+
+output:
+  directory: string      # Output directory (default: "docs")
+  clean: boolean        # Clean output directory before generation (default: true)
+  gitbook_config: boolean # Generate .gitbook.yml (default: true)
+
+discovery:
+  packages:
+    auto_discover: boolean    # Auto-discover packages (default: true)
+    include_patterns: []string # Patterns to include (e.g., ["./...", "./internal/..."])
+    exclude_patterns: []string # Patterns to exclude (e.g., ["./test/...", "./vendor/..."])
+    manual_packages: []object  # Manual package definitions
+      - name: string
+        path: string
+        description: string
+        
+  api_generation:
+    enabled: boolean          # Generate API docs (default: true)
+    include_unexported: boolean # Include unexported symbols (default: false)
+    include_tests: boolean    # Include test files (default: false)
+    include_examples: boolean # Include example functions (default: true)
+    
+  examples:
+    enabled: boolean          # Generate examples (default: true)
+    auto_discover: boolean    # Auto-discover examples (default: true)
+    directories: []string     # Custom example directories
+    
+  guides:
+    enabled: boolean          # Generate guides (default: true)
+    include_contributing: boolean # Include contributing guide (default: true)
+    include_faq: boolean      # Include FAQ (default: true)
+    custom_guides: []object   # Custom guide definitions
+      - name: string
+        file: string
+        title: string
+
+templates:
+  directory: string         # Custom templates directory (optional)
+  custom_templates: []object # Custom template overrides
+    - name: string          # Template name (e.g., "index", "api-reference")
+      file: string          # Path to custom template file
+      
+gitbook:
+  title: string            # GitBook title (defaults to repository name)
+  description: string      # GitBook description (defaults to repository description)
+  theme: string           # GitBook theme (default: "default")
+  plugins: []string       # GitBook plugins
+  structure:
+    readme: string         # README file path (default: "README.md")
+    summary: string        # Summary file path (default: "SUMMARY.md")
+  
+metadata:
+  version: string          # Documentation version (default: "latest")
+  go_version: string       # Minimum Go version required
+  author: string           # Author information
+  license: string          # License (default: "MIT")
+  
+generation:
+  date_format: string      # Date format for timestamps (default: "2006-01-02")
+  include_generated_notice: boolean # Include generation notice (default: true)
+  include_toc: boolean     # Include table of contents (default: true)
+  max_depth: integer       # Maximum directory depth (default: 3)

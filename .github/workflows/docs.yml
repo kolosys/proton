@@ -1,0 +1,87 @@
+name: Generate Documentation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      output_branch:
+        description: "Branch to push documentation to"
+        required: false
+        default: "docs"
+      output_directory:
+        description: "Output directory for documentation"
+        required: false
+        default: "docs"
+
+env:
+  GO_VERSION: "1.24"
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Generate GitHub App Token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Generate Documentation
+        uses: ./
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          output-directory: ${{ github.event.inputs.output_directory || 'docs' }}
+          deploy-to-pages: ${{ github.ref == 'refs/heads/main' }}
+          deploy-to-branch: ${{ github.event.inputs.output_branch || '' }}
+          auto-commit: false
+
+  validate:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: Install Proton
+        run: |
+          go install github.com/kolosys/proton/cmd/proton@latest
+
+      - name: Validate documentation generation
+        run: |
+          # Create a temporary config for validation
+          mkdir -p .proton
+          cat > .proton/config.yml << EOF
+          repository:
+            name: ${{ github.event.repository.name }}
+            owner: ${{ github.repository_owner }}
+            description: ${{ github.event.repository.description }}
+            import_path: github.com/${{ github.repository }}
+
+          output:
+            directory: docs-test
+            clean: true
+
+          discovery:
+            packages:
+              auto_discover: true
+          EOF
+
+          # Validate configuration and project structure
+          proton validate --verbose
+
+          echo "✅ Documentation validation successful"
