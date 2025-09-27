@@ -204,7 +204,8 @@ func (d *Discoverer) shouldExcludePackage(pkgPath string) bool {
 			return true
 		}
 		// Also check if the pattern matches any part of the path
-		if strings.Contains(pkgPath, strings.Trim(pattern, "*")) {
+		trimmed := strings.Trim(pattern, "*./")
+		if strings.Contains(pkgPath, trimmed) {
 			return true
 		}
 	}

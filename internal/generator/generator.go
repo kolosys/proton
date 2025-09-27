@@ -198,6 +198,11 @@ func (g *Generator) generateAPIDocumentation(packages []*discovery.PackageInfo, 
 
 	// Generate individual API documentation for each package
 	for _, pkg := range packages {
+		// Skip main packages as they are typically executables, not libraries
+		if pkg.Name == "main" {
+			continue
+		}
+
 		pkgContext := &templates.PackageContext{
 			Context: context,
 			Package: pkg,

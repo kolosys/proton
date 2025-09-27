@@ -93,69 +93,18 @@ runs:
       shell: bash
       run: |
         if [ ! -f "${{ inputs.config-file }}" ]; then
-          mkdir -p $(dirname "${{ inputs.config-file }}")
-          cat > "${{ inputs.config-file }}" << 'EOF'
-        repository:
-          name: ${{ github.event.repository.name }}
-          owner: ${{ github.repository_owner }}
-          description: ${{ github.event.repository.description || github.event.repository.name }}
-          import_path: github.com/${{ github.repository }}
-          branch: ${{ github.ref_name }}
-
-        output:
-          directory: ${{ inputs.output-directory }}
-          clean: false
-          gitbook_config: true
-
-        discovery:
-          packages:
-            auto_discover: true
-            exclude_patterns: ["./vendor/...", "./test/...", "./.git/...", "**/*_test.go"]
-          api_generation:
-            enabled: true
-            include_unexported: false
-            include_examples: true
-          examples:
-            enabled: true
-            auto_discover: true
-          guides:
-            enabled: true
-            include_contributing: true
-            include_faq: true
-
-        gitbook:
-          title: ${{ github.event.repository.name }}
-          description: ${{ github.event.repository.description || github.event.repository.name }}
-        EOF
+          proton init
         fi
 
     - name: Generate documentation
       id: generate
       shell: bash
       run: |
-        # If clean is false, selectively clean only auto-generated directories
-        if [ "${{ inputs.clean-output }}" = "false" ]; then
-          echo "Selective cleaning: removing only auto-generated content..."
-          # Remove auto-generated directories that should be regenerated
-          for dir in "api-reference" "examples" "packages"; do
-            if [ -d "${{ inputs.output-directory }}/$dir" ]; then
-              echo "Removing auto-generated directory: $dir"
-              rm -rf "${{ inputs.output-directory }}/$dir"
-            fi
-          done
-          # Remove auto-generated files
-          for file in "README.md" "SUMMARY.md"; do
-            if [ -f "${{ inputs.output-directory }}/$file" ]; then
-              echo "Removing auto-generated file: $file"
-              rm -f "${{ inputs.output-directory }}/$file"
-            fi
-          done
-        fi
 
         proton generate \
           --config "${{ inputs.config-file }}" \
           --output "${{ inputs.output-directory }}" \
-          --clean="false" \
+          --clean="${{ inputs.clean-output }}" \
           --verbose
 
         # Move .gitbook.yml to root for GitBook compatibility
@@ -186,7 +135,7 @@ runs:
       with:
         commit_message: ${{ inputs.commit-message }}
         branch: ${{ inputs.deploy-to-branch }}
-        file_pattern: "${{ inputs.output-directory }}/**"
+        file_pattern: "${{ inputs.config-file }},${{ inputs.output-directory }}/**"
         commit_author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
         push_options: "--force-with-lease"
         create_branch: true
@@ -198,6 +147,6 @@ runs:
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
         commit_message: ${{ inputs.commit-message }}
-        file_pattern: "${{ inputs.output-directory }}/**"
+        file_pattern: "${{ inputs.config-file }},${{ inputs.output-directory }}/**"
         commit_author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
         disable_globbing: true
