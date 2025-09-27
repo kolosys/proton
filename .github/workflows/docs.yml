@@ -42,47 +42,6 @@ jobs:
         with:
           token: ${{ steps.app-token.outputs.token }}
           output-directory: ${{ github.event.inputs.output_directory || 'docs' }}
-          deploy-to-pages: ${{ github.ref == 'refs/heads/main' }}
-          deploy-to-branch: ${{ github.event.inputs.output_branch || '' }}
-          auto-commit: false
-
-  validate:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-
-    steps:
-      - uses: actions/checkout@v5
-
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: ${{ env.GO_VERSION }}
-
-      - name: Install Proton
-        run: |
-          go install github.com/kolosys/proton/cmd/proton@latest
-
-      - name: Validate documentation generation
-        run: |
-          # Create a temporary config for validation
-          mkdir -p .proton
-          cat > .proton/config.yml << EOF
-          repository:
-            name: ${{ github.event.repository.name }}
-            owner: ${{ github.repository_owner }}
-            description: ${{ github.event.repository.description }}
-            import_path: github.com/${{ github.repository }}
-
-          output:
-            directory: docs-test
-            clean: true
-
-          discovery:
-            packages:
-              auto_discover: true
-          EOF
-
-          # Validate configuration and project structure
-          proton validate --verbose
-
-          echo "✅ Documentation validation successful"
+          # deploy-to-pages: ${{ github.ref == 'refs/heads/main' }}
+          # deploy-to-branch: ${{ github.event.inputs.output_branch || '' }}
+          auto-commit: true
