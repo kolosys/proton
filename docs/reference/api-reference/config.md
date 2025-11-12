@@ -437,6 +437,7 @@ _No documentation available_
 output := Output{
     Directory: "example",
     Clean: true,
+    PreserveCustom: true,
     GitBookConfig: true,
 }
 ```
@@ -447,6 +448,7 @@ output := Output{
 type Output struct {
     Directory string `yaml:"directory" mapstructure:"directory"`
     Clean bool `yaml:"clean" mapstructure:"clean"`
+    PreserveCustom bool `yaml:"preserve_custom" mapstructure:"preserve_custom"`
     GitBookConfig bool `yaml:"gitbook_config" mapstructure:"gitbook_config"`
 }
 ```
@@ -457,6 +459,7 @@ type Output struct {
 | ----- | ---- | ----------- |
 | Directory | `string` |  |
 | Clean | `bool` |  |
+| PreserveCustom | `bool` |  |
 | GitBookConfig | `bool` |  |
 
 ### Package

@@ -4,30 +4,35 @@
 
 ## Getting Started
 
-- [Packages](packages/README.md)
-  - [cli](packages/cli.md)
-  - [config](packages/config.md)
-  - [discovery](packages/discovery.md)
-  - [generator](packages/generator.md)
-  - [interfaces](packages/interfaces.md)
-  - [templates](packages/templates.md)
+- [Overview](getting-started/overview.md)
+- [Installation](getting-started/installation.md)
+- [Quick Start](getting-started/quick-start.md)
 
-## API Reference
+## Core Concepts
+- [cli](core-concepts/cli.md)
+- [config](core-concepts/config.md)
+- [discovery](core-concepts/discovery.md)
+- [generator](core-concepts/generator.md)
+- [interfaces](core-concepts/interfaces.md)
+- [templates](core-concepts/templates.md)
 
-- [API Overview](api-reference/README.md)
-  - [cli API](api-reference/cli.md)
-  - [config API](api-reference/config.md)
-  - [discovery API](api-reference/discovery.md)
-  - [generator API](api-reference/generator.md)
-  - [interfaces API](api-reference/interfaces.md)
-  - [templates API](api-reference/templates.md)
+## Advanced
 
-## Examples
+- [Performance Tuning](advanced/performance-tuning.md)
+- [Best Practices](advanced/best-practices.md)
 
-- [Examples Overview](examples/README.md)
+## Reference
 
-## Guides
+### API Reference
 
-- [Guides Overview](guides/README.md)
-- [Contributing](guides/contributing.md)
-- [FAQ](guides/faq.md)
+- [API Overview](reference/api-reference/README.md)
+  - [cli API](reference/api-reference/cli.md)
+  - [config API](reference/api-reference/config.md)
+  - [discovery API](reference/api-reference/discovery.md)
+  - [generator API](reference/api-reference/generator.md)
+  - [interfaces API](reference/api-reference/interfaces.md)
+  - [templates API](reference/api-reference/templates.md)
+
+### Examples
+
+- [Examples Overview](reference/examples/README.md)

@@ -225,6 +225,7 @@ metadata := Metadata{
 output := Output{
     Directory: "example",
     Clean: true,
+    PreserveCustom: true,
     GitBookConfig: true,
 }
 ```
