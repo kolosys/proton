@@ -8,7 +8,6 @@ repository:
 output:
     directory: /home/runner/work/proton/proton/docs
     clean: true
-    gitbook_config: true
 discovery:
     packages:
         auto_discover: true
@@ -37,14 +36,6 @@ discovery:
 templates:
     directory: ""
     custom_templates: []
-gitbook:
-    title: proton
-    description: '[![Go Reference](https://pkg.go.dev/badge/github.com/kolosys/proton.svg)](https://pkg.go.dev/github.com/kolosys/proton)'
-    theme: default
-    plugins: []
-    structure:
-        readme: README.md
-        summary: SUMMARY.md
 metadata:
     version: latest
     go_version: ""

@@ -57,7 +57,6 @@ config := Config{
     Output: Output{},
     Discovery: Discovery{},
     Templates: Templates{},
-    GitBook: GitBook{},
     Metadata: Metadata{},
     Generation: Generation{},
 }
@@ -71,7 +70,6 @@ type Config struct {
     Output Output `yaml:"output" mapstructure:"output"`
     Discovery Discovery `yaml:"discovery" mapstructure:"discovery"`
     Templates Templates `yaml:"templates" mapstructure:"templates"`
-    GitBook GitBook `yaml:"gitbook" mapstructure:"gitbook"`
     Metadata Metadata `yaml:"metadata" mapstructure:"metadata"`
     Generation Generation `yaml:"generation" mapstructure:"generation"`
 }
@@ -85,7 +83,6 @@ type Config struct {
 | Output | `Output` |  |
 | Discovery | `Discovery` |  |
 | Templates | `Templates` |  |
-| GitBook | `GitBook` |  |
 | Metadata | `Metadata` |  |
 | Generation | `Generation` |  |
 
@@ -290,73 +287,6 @@ type Generation struct {
 | IncludeTOC | `bool` |  |
 | MaxDepth | `int` |  |
 
-### GitBook
-_No documentation available_
-
-#### Example Usage
-
-```go
-// Create a new GitBook
-gitbook := GitBook{
-    Title: "example",
-    Description: "example",
-    Theme: "example",
-    Plugins: [],
-    Structure: GitBookStructure{},
-}
-```
-
-#### Type Definition
-
-```go
-type GitBook struct {
-    Title string `yaml:"title" mapstructure:"title"`
-    Description string `yaml:"description" mapstructure:"description"`
-    Theme string `yaml:"theme" mapstructure:"theme"`
-    Plugins []string `yaml:"plugins" mapstructure:"plugins"`
-    Structure GitBookStructure `yaml:"structure" mapstructure:"structure"`
-}
-```
-
-### Fields
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| Title | `string` |  |
-| Description | `string` |  |
-| Theme | `string` |  |
-| Plugins | `[]string` |  |
-| Structure | `GitBookStructure` |  |
-
-### GitBookStructure
-_No documentation available_
-
-#### Example Usage
-
-```go
-// Create a new GitBookStructure
-gitbookstructure := GitBookStructure{
-    Readme: "example",
-    Summary: "example",
-}
-```
-
-#### Type Definition
-
-```go
-type GitBookStructure struct {
-    Readme string `yaml:"readme" mapstructure:"readme"`
-    Summary string `yaml:"summary" mapstructure:"summary"`
-}
-```
-
-### Fields
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| Readme | `string` |  |
-| Summary | `string` |  |
-
 ### Guides
 _No documentation available_
 
@@ -437,7 +367,7 @@ _No documentation available_
 output := Output{
     Directory: "example",
     Clean: true,
-    GitBookConfig: true,
+    PreserveCustom: true,
 }
 ```
 
@@ -447,7 +377,7 @@ output := Output{
 type Output struct {
     Directory string `yaml:"directory" mapstructure:"directory"`
     Clean bool `yaml:"clean" mapstructure:"clean"`
-    GitBookConfig bool `yaml:"gitbook_config" mapstructure:"gitbook_config"`
+    PreserveCustom bool `yaml:"preserve_custom" mapstructure:"preserve_custom"`
 }
 ```
 
@@ -457,7 +387,7 @@ type Output struct {
 | ----- | ---- | ----------- |
 | Directory | `string` |  |
 | Clean | `bool` |  |
-| GitBookConfig | `bool` |  |
+| PreserveCustom | `bool` |  |
 
 ### Package
 _No documentation available_

@@ -1,12 +1,12 @@
-# {{.Package.Name}}
+# config
 
-> **Note**: This is a developer-maintained documentation page. The content here is not auto-generated and should be updated manually to explain the core concepts and architecture of the {{.Package.Name}} package.
+> **Note**: This is a developer-maintained documentation page. The content here is not auto-generated and should be updated manually to explain the core concepts and architecture of the config package.
 
 ## About This Package
 
-**Import Path:** `{{.Package.ImportPath}}`
+**Import Path:** `github.com/kolosys/proton/internal/config`
 
-{{.Package.Doc.Doc}}
+
 
 ## Architecture Overview
 
@@ -73,7 +73,7 @@ Explain how this package works with:
 
 ## Further Reading
 
-- [API Reference](../api-reference/{{.Package.Name}}.md) - Complete API documentation
+- [API Reference](../api-reference/config.md) - Complete API documentation
 - [Examples](../examples/README.md) - Practical examples
 - [Best Practices](../advanced/best-practices.md) - Recommended patterns
 
@@ -81,3 +81,4 @@ Explain how this package works with:
 
 *This documentation should be updated by package maintainers to reflect the actual architecture and design patterns used.*
 
+Custom content in core-concepts

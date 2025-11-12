@@ -12,7 +12,7 @@ import (
 	"github.com/kolosys/proton/internal/discovery"
 )
 
-//go:embed builtin/*.md builtin/*.yml
+//go:embed builtin/*.md
 var builtinTemplates embed.FS
 
 // Engine handles template rendering for documentation generation
@@ -69,32 +69,17 @@ func New(cfg *config.Config, projectPath string) (*Engine, error) {
 // loadBuiltinTemplates loads the built-in templates from the embedded filesystem
 func (e *Engine) loadBuiltinTemplates() error {
 	templateNames := []string{
-		"index",
-		"getting-started-index",
-		"getting-started",
 		"getting-started-overview",
 		"getting-started-quick-start",
 		"getting-started-installation",
 		"core-concept-placeholder",
 		"advanced-performance",
 		"advanced-best-practices",
-		"index-api-reference",
 		"api-reference",
-		"examples-index",
-		"package-examples",
-		"guides-index",
-		"contributing",
-		"faq",
-		"package-best-practices",
-		"gitbook-config",
-		"gitbook-summary",
 	}
 
 	for _, name := range templateNames {
 		templatePath := fmt.Sprintf("builtin/%s.md", name)
-		if name == "gitbook-config" {
-			templatePath = "builtin/gitbook-config.yml"
-		}
 
 		content, err := builtinTemplates.ReadFile(templatePath)
 		if err != nil {

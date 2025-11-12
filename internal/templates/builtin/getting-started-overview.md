@@ -22,7 +22,8 @@ This documentation is organized into several sections to help you find what you 
 - **[Getting Started](../getting-started/)** - Installation instructions and quick start guides
 - **[Core Concepts](../core-concepts/)** - Fundamental concepts and architecture details
 - **[Advanced Topics](../advanced/)** - Performance tuning and advanced usage patterns
-- **[Reference](../reference/)** - Complete API reference and examples
+- **[API Reference](../api-reference/)** - Complete API reference documentation
+- **[Examples](../examples/)** - Working code examples and tutorials
 
 ## Project Features
 
@@ -36,8 +37,8 @@ This documentation is organized into several sections to help you find what you 
 
 - [Installation Guide](installation.md)
 - [Quick Start Guide](quick-start.md)
-- [API Reference](../reference/api-reference/README.md)
-- [Examples](../reference/examples/README.md)
+- [API Reference](../api-reference/)
+- [Examples](../examples/README.md)
 
 ## Community & Support
 
@@ -51,8 +52,8 @@ This documentation is organized into several sections to help you find what you 
 
 If you encounter any issues or have questions:
 
-1. Check the [API Reference](../reference/api-reference/README.md) for detailed documentation
-2. Browse the [Examples](../reference/examples/README.md) for common use cases
+1. Check the [API Reference](../api-reference/) for detailed documentation
+2. Browse the [Examples](../examples/README.md) for common use cases
 3. Search existing [GitHub Issues]({{.Repository.URL}}/issues)
 4. Open a new issue if you've found a bug or have a feature request
 

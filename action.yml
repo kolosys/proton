@@ -1,5 +1,5 @@
 name: "Proton Documentation Generator"
-description: "Generate comprehensive documentation for Go libraries with auto-generated API reference, examples, and developer-maintained content sections"
+description: "Automatic documentation generator for Go libraries with API reference, examples, and developer-maintained content sections"
 author: "Kolosys"
 
 branding:
@@ -23,7 +23,7 @@ inputs:
     default: "true"
 
   preserve-custom:
-    description: "Preserve custom directories (core-concepts, advanced) when cleaning. Recommended for documentation sites with developer-maintained content."
+    description: "[deprecated] Preservation is now default behavior. Only api-reference and examples are regenerated."
     required: false
     default: "false"
 
@@ -60,7 +60,7 @@ inputs:
   commit-message:
     description: "Commit message for auto-commit"
     required: false
-    default: "📚 Update documentation (auto-generated)"
+    default: "📚 Update documentation [skip ci]"
 
 outputs:
   docs-path:
@@ -113,11 +113,6 @@ runs:
           --preserve-custom="${{ inputs.preserve-custom }}" \
           --verbose
 
-        # Move .gitbook.yml to root for GitBook compatibility
-        if [ -f "${{ inputs.output-directory }}/.gitbook.yml" ]; then
-          mv "${{ inputs.output-directory }}/.gitbook.yml" ./.gitbook.yml
-        fi
-
         echo "docs-path=${{ inputs.output-directory }}" >> $GITHUB_OUTPUT
 
     - name: Setup Pages
@@ -139,7 +134,7 @@ runs:
       if: inputs.deploy-to-branch != ''
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
-        commit_message: ${{ inputs.commit-message }}
+        commit_message: ${{ inputs.commit-message }} [ci skip]
         branch: ${{ inputs.deploy-to-branch }}
         file_pattern: ${{ inputs.config-file }} ${{ inputs.output-directory }}/**
         commit_author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
@@ -152,7 +147,7 @@ runs:
       if: inputs.auto-commit == 'true' && inputs.deploy-to-branch == ''
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
-        commit_message: ${{ inputs.commit-message }}
+        commit_message: ${{ inputs.commit-message }} [ci skip]
         file_pattern: ${{ inputs.config-file }} ${{ inputs.output-directory }}/**
         commit_author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
         disable_globbing: true

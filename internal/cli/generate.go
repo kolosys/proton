@@ -28,16 +28,14 @@ var generateCmd = &cobra.Command{
 This command will:
 - Discover Go packages in the project
 - Parse Go source code and comments
-- Generate GitBook-compatible documentation
-- Create .gitbook.yml configuration
+- Generate comprehensive documentation
 - Apply custom templates if configured
 
 Examples:
   proton generate                    # Generate docs for current directory
   proton generate ./my-project      # Generate docs for specific project
   proton generate --output docs     # Generate with custom output directory
-  proton generate --clean=false     # Don't clean output directory
-  proton generate --preserve-custom  # Preserve custom directories during clean`,
+  proton generate --clean=false     # Don't clean output directory`,
 	Args: cobra.MaximumNArgs(1),
 	RunE: runGenerate,
 }
@@ -95,7 +93,7 @@ func init() {
 	// Local flags
 	generateCmd.Flags().StringVarP(&outputDir, "output", "o", "", "output directory (default: docs)")
 	generateCmd.Flags().BoolVar(&clean, "clean", true, "clean output directory before generation")
-	generateCmd.Flags().BoolVar(&preserveCustom, "preserve-custom", false, "preserve custom directories (core-concepts, advanced) when cleaning")
+	generateCmd.Flags().BoolVar(&preserveCustom, "preserve-custom", false, "[deprecated] preservation is now default behavior")
 	generateCmd.Flags().StringVarP(&configPath, "config", "c", "", "path to configuration file")
 
 	// Bind flags to viper

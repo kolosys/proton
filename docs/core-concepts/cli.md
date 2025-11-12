@@ -1,12 +1,12 @@
-# {{.Package.Name}}
+# cli
 
-> **Note**: This is a developer-maintained documentation page. The content here is not auto-generated and should be updated manually to explain the core concepts and architecture of the {{.Package.Name}} package.
+> **Note**: This is a developer-maintained documentation page. The content here is not auto-generated and should be updated manually to explain the core concepts and architecture of the cli package.
 
 ## About This Package
 
-**Import Path:** `{{.Package.ImportPath}}`
+**Import Path:** `github.com/kolosys/proton/internal/cli`
 
-{{.Package.Doc.Doc}}
+
 
 ## Architecture Overview
 
@@ -73,7 +73,7 @@ Explain how this package works with:
 
 ## Further Reading
 
-- [API Reference](../api-reference/{{.Package.Name}}.md) - Complete API documentation
+- [API Reference](../api-reference/cli.md) - Complete API documentation
 - [Examples](../examples/README.md) - Practical examples
 - [Best Practices](../advanced/best-practices.md) - Recommended patterns
 

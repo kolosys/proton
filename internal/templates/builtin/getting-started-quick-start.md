@@ -71,7 +71,7 @@ func main() {
 {{- end}}
 {{- end}}
 
-For detailed API documentation, see the [{{.Name}} API Reference](../reference/api-reference/{{.Name}}.md).
+For detailed API documentation, see the [{{.Name}} API Reference](../api-reference/{{.Name}}.md).
 
 {{- end}}
 {{- end}}
@@ -182,15 +182,15 @@ func main() {
 Now that you've seen the basics, explore:
 
 - **[Core Concepts](../core-concepts/)** - Understanding the library architecture
-- **[API Reference](../reference/api-reference/README.md)** - Complete API documentation
-- **[Examples](../reference/examples/README.md)** - More detailed examples
+- **[API Reference](../api-reference/)** - Complete API documentation
+- **[Examples](../examples/README.md)** - More detailed examples
 - **[Advanced Topics](../advanced/)** - Performance tuning and advanced patterns
 
 ## Getting Help
 
 If you run into issues:
 
-1. Check the [API Reference](../reference/api-reference/README.md)
-2. Browse the [Examples](../reference/examples/README.md)
+1. Check the [API Reference](../api-reference/)
+2. Browse the [Examples](../examples/README.md)
 3. Visit the [GitHub Issues]({{.Repository.URL}}/issues) page
 

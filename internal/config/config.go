@@ -17,7 +17,6 @@ type Config struct {
 	Output     Output     `yaml:"output" mapstructure:"output"`
 	Discovery  Discovery  `yaml:"discovery" mapstructure:"discovery"`
 	Templates  Templates  `yaml:"templates" mapstructure:"templates"`
-	GitBook    GitBook    `yaml:"gitbook" mapstructure:"gitbook"`
 	Metadata   Metadata   `yaml:"metadata" mapstructure:"metadata"`
 	Generation Generation `yaml:"generation" mapstructure:"generation"`
 }
@@ -35,7 +34,6 @@ type Output struct {
 	Directory      string `yaml:"directory" mapstructure:"directory"`
 	Clean          bool   `yaml:"clean" mapstructure:"clean"`
 	PreserveCustom bool   `yaml:"preserve_custom" mapstructure:"preserve_custom"`
-	GitBookConfig  bool   `yaml:"gitbook_config" mapstructure:"gitbook_config"`
 }
 
 type Discovery struct {
@@ -92,19 +90,6 @@ type Templates struct {
 type CustomTemplate struct {
 	Name string `yaml:"name" mapstructure:"name"`
 	File string `yaml:"file" mapstructure:"file"`
-}
-
-type GitBook struct {
-	Title       string           `yaml:"title" mapstructure:"title"`
-	Description string           `yaml:"description" mapstructure:"description"`
-	Theme       string           `yaml:"theme" mapstructure:"theme"`
-	Plugins     []string         `yaml:"plugins" mapstructure:"plugins"`
-	Structure   GitBookStructure `yaml:"structure" mapstructure:"structure"`
-}
-
-type GitBookStructure struct {
-	Readme  string `yaml:"readme" mapstructure:"readme"`
-	Summary string `yaml:"summary" mapstructure:"summary"`
 }
 
 type Metadata struct {
@@ -187,7 +172,6 @@ func setDefaults(v *viper.Viper) {
 	v.SetDefault("output.directory", "docs")
 	v.SetDefault("output.clean", true)
 	v.SetDefault("output.preserve_custom", false)
-	v.SetDefault("output.gitbook_config", true)
 
 	// Discovery defaults
 	v.SetDefault("discovery.packages.auto_discover", true)
@@ -205,11 +189,6 @@ func setDefaults(v *viper.Viper) {
 	v.SetDefault("discovery.guides.enabled", true)
 	v.SetDefault("discovery.guides.include_contributing", true)
 	v.SetDefault("discovery.guides.include_faq", true)
-
-	// GitBook defaults
-	v.SetDefault("gitbook.theme", "default")
-	v.SetDefault("gitbook.structure.readme", "README.md")
-	v.SetDefault("gitbook.structure.summary", "SUMMARY.md")
 
 	// Metadata defaults
 	v.SetDefault("metadata.version", "latest")
@@ -262,14 +241,6 @@ func autoDetectRepo(cfg *Config, projectPath string) error {
 
 // validateAndSetDefaults validates the configuration and sets computed defaults
 func validateAndSetDefaults(cfg *Config) error {
-	// Set GitBook defaults based on repository info
-	if cfg.GitBook.Title == "" {
-		cfg.GitBook.Title = cfg.Repository.Name
-	}
-	if cfg.GitBook.Description == "" {
-		cfg.GitBook.Description = cfg.Repository.Description
-	}
-
 	// Ensure required fields are set
 	if cfg.Repository.Name == "" {
 		return fmt.Errorf("repository name is required")

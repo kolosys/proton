@@ -1,12 +1,12 @@
 # Installation
 
-This guide will help you install and set up {{.Repository.Name}} in your Go project.
+This guide will help you install and set up proton in your Go project.
 
 ## Prerequisites
 
-Before installing {{.Repository.Name}}, ensure you have:
+Before installing proton, ensure you have:
 
-- **Go {{.Metadata.GoVersion}}** or later installed
+- **Go ** or later installed
 - A Go module initialized in your project (run `go mod init` if needed)
 - Access to the GitHub repository (for private repositories)
 
@@ -14,10 +14,10 @@ Before installing {{.Repository.Name}}, ensure you have:
 
 ### Step 1: Install the Package
 
-Use `go get` to install {{.Repository.Name}}:
+Use `go get` to install proton:
 
 ```bash
-go get {{.Repository.ImportPath}}
+go get github.com/kolosys/proton
 ```
 
 This will download the package and add it to your `go.mod` file.
@@ -27,25 +27,43 @@ This will download the package and add it to your `go.mod` file.
 Import the package in your Go source files:
 
 ```go
-import "{{.Repository.ImportPath}}"
+import "github.com/kolosys/proton"
 ```
-
-{{- if gt (len .Packages) 1}}
 
 ### Multiple Packages
 
-{{.Repository.Name}} includes several packages. Import the ones you need:
-
-{{- range .Packages}}
-{{- if ne .Name "main"}}
+proton includes several packages. Import the ones you need:
 
 ```go
-// {{.Description}}
-import "{{.ImportPath}}"
+// 
+import "github.com/kolosys/proton/internal/cli"
 ```
-{{- end}}
-{{- end}}
-{{- end}}
+
+```go
+// 
+import "github.com/kolosys/proton/internal/config"
+```
+
+```go
+// 
+import "github.com/kolosys/proton/internal/discovery"
+```
+
+```go
+// 
+import "github.com/kolosys/proton/internal/generator"
+```
+
+```go
+// Package interfaces provides core interfaces for Proton documentation generation.
+
+import "github.com/kolosys/proton/internal/interfaces"
+```
+
+```go
+// 
+import "github.com/kolosys/proton/internal/templates"
+```
 
 ### Step 3: Verify Installation
 
@@ -56,11 +74,11 @@ package main
 
 import (
     "fmt"
-    "{{.Repository.ImportPath}}"
+    "github.com/kolosys/proton"
 )
 
 func main() {
-    fmt.Println("{{.Repository.Name}} installed successfully!")
+    fmt.Println("proton installed successfully!")
 }
 ```
 
@@ -75,13 +93,13 @@ go run main.go
 To update to the latest version:
 
 ```bash
-go get -u {{.Repository.ImportPath}}
+go get -u github.com/kolosys/proton
 ```
 
 To update to a specific version:
 
 ```bash
-go get {{.Repository.ImportPath}}@v1.2.3
+go get github.com/kolosys/proton@v1.2.3
 ```
 
 ## Installing a Specific Version
@@ -89,10 +107,10 @@ go get {{.Repository.ImportPath}}@v1.2.3
 To install a specific version of the package:
 
 ```bash
-go get {{.Repository.ImportPath}}@v1.0.0
+go get github.com/kolosys/proton@v1.0.0
 ```
 
-Check available versions on the [GitHub releases page]({{.Repository.URL}}/releases).
+Check available versions on the [GitHub releases page](https://github.com/kolosys/proton/releases).
 
 ## Development Setup
 
@@ -101,8 +119,8 @@ If you want to contribute or modify the library:
 ### Clone the Repository
 
 ```bash
-git clone {{.Repository.URL}}.git
-cd {{.Repository.Name}}
+git clone https://github.com/kolosys/proton.git
+cd proton
 ```
 
 ### Install Dependencies
@@ -138,12 +156,12 @@ git config --global url."git@github.com:".insteadOf "https://github.com/"
 Or set up GOPRIVATE:
 
 ```bash
-export GOPRIVATE={{.Repository.ImportPath}}
+export GOPRIVATE=github.com/kolosys/proton
 ```
 
 ## Next Steps
 
-Now that you have {{.Repository.Name}} installed, check out the [Quick Start Guide](quick-start.md) to learn how to use it.
+Now that you have proton installed, check out the [Quick Start Guide](quick-start.md) to learn how to use it.
 
 ## Additional Resources
 

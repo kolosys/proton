@@ -11,7 +11,6 @@ repository:
 output:
   directory: docs
   clean: true
-  gitbook_config: true
 
 discovery:
   packages:
@@ -37,11 +36,6 @@ discovery:
     enabled: true
     include_contributing: true
     include_faq: true
-
-gitbook:
-  title: My Library Documentation
-  description: Complete documentation for My Library
-  theme: default
 
 metadata:
   version: latest

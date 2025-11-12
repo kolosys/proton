@@ -4,13 +4,12 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/kolosys/proton)](https://goreportcard.com/report/github.com/kolosys/proton)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**Proton** is an opinionated, open-source documentation generator specifically designed for Go libraries. It automatically creates comprehensive, GitBook-compatible documentation from your Go source code, comments, and configurable templates.
+**Proton** is an opinionated, open-source documentation generator specifically designed for Go libraries. It automatically creates comprehensive documentation from your Go source code, comments, and configurable templates.
 
 ## 🚀 Features
 
 - **📦 Multi-Package Support** - Handle single and multi-package Go libraries effortlessly
 - **🤖 Auto-Discovery** - Automatically discover and document all packages in your project
-- **📖 GitBook Integration** - Generate GitBook-compatible documentation with `.gitbook.yml`
 - **🎨 Customizable Templates** - Use built-in templates or create your own
 - **⚡ GitHub Actions** - Automated documentation deployment with GitHub Actions
 - **🔧 Configurable Output** - Flexible output directory and structure configuration
@@ -18,7 +17,7 @@
 - **💡 Examples & Guides** - Auto-extract examples and generate comprehensive guides
 - **🔍 Smart Parsing** - Parse Go AST to extract documentation, types, and examples
 - **✅ Configuration Validation** - Validate your configuration before generation
-- **🧹 Selective Cleaning** - Preserve custom content while regenerating auto-generated docs
+- **🧹 Smart Preservation** - Only regenerates API reference and examples, preserves all other documentation
 
 ## 📥 Installation
 

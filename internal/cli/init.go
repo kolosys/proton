@@ -87,9 +87,8 @@ func createDefaultConfig(projectPath string) *config.Config {
 			// Branch will be auto-detected from Git
 		},
 		Output: config.Output{
-			Directory:     filepath.Join(projectPath, "docs"),
-			Clean:         true,
-			GitBookConfig: true,
+			Directory: filepath.Join(projectPath, "docs"),
+			Clean:     true,
 		},
 		Discovery: config.Discovery{
 			Packages: config.Packages{
@@ -113,13 +112,6 @@ func createDefaultConfig(projectPath string) *config.Config {
 				IncludeFAQ:          true,
 			},
 		},
-		GitBook: config.GitBook{
-			Theme: "default",
-			Structure: config.GitBookStructure{
-				Readme:  "README.md",
-				Summary: "SUMMARY.md",
-			},
-		},
 		Metadata: config.Metadata{
 			Version: "latest",
 			License: "MIT",
@@ -140,7 +132,6 @@ func autoDetectProjectInfo(cfg *config.Config, projectPath string) error {
 		if cfg.Repository.Owner != "" && cfg.Repository.Name != "" {
 			cfg.Repository.URL = fmt.Sprintf("https://github.com/%s/%s", cfg.Repository.Owner, cfg.Repository.Name)
 			cfg.Repository.ImportPath = fmt.Sprintf("github.com/%s/%s", cfg.Repository.Owner, cfg.Repository.Name)
-			cfg.GitBook.Title = cfg.Repository.Name
 		}
 	} else {
 		// Fallback to go.mod for module information
@@ -168,7 +159,6 @@ func autoDetectProjectInfo(cfg *config.Config, projectPath string) error {
 		// Set computed values from go.mod derived info
 		if cfg.Repository.Owner != "" && cfg.Repository.Name != "" {
 			cfg.Repository.URL = fmt.Sprintf("https://github.com/%s/%s", cfg.Repository.Owner, cfg.Repository.Name)
-			cfg.GitBook.Title = cfg.Repository.Name
 		}
 	}
 
@@ -180,7 +170,6 @@ func autoDetectProjectInfo(cfg *config.Config, projectPath string) error {
 			line = strings.TrimSpace(line)
 			if line != "" && !strings.HasPrefix(line, "#") {
 				cfg.Repository.Description = line
-				cfg.GitBook.Description = line
 				break
 			}
 		}

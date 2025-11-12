@@ -11,7 +11,6 @@ repository:
 output:
   directory: documentation
   clean: true
-  gitbook_config: true
 
 discovery:
   packages:
@@ -69,15 +68,6 @@ templates:
   custom_templates:
     - name: index
       file: ./docs/templates/custom-index.md
-
-gitbook:
-  title: Multi-Library Documentation
-  description: Complete documentation for the multi-package library
-  theme: default
-  plugins:
-    - search
-    - sharing
-    - mermaid
 
 metadata:
   version: v2.1.0
