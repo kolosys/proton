@@ -1,5 +1,5 @@
 name: "Proton Documentation Generator"
-description: "Generate comprehensive GitBook documentation for Go libraries"
+description: "Generate comprehensive documentation for Go libraries with auto-generated API reference, examples, and developer-maintained content sections"
 author: "Kolosys"
 
 branding:
@@ -21,6 +21,11 @@ inputs:
     description: "Clean output directory before generation. When false, only auto-generated content (api-reference, examples, packages, README.md, SUMMARY.md) is cleaned, preserving custom content in guides and other directories."
     required: false
     default: "true"
+
+  preserve-custom:
+    description: "Preserve custom directories (core-concepts, advanced) when cleaning. Recommended for documentation sites with developer-maintained content."
+    required: false
+    default: "false"
 
   go-version:
     description: "Go version to use"
@@ -105,6 +110,7 @@ runs:
           --config "${{ inputs.config-file }}" \
           --output "${{ inputs.output-directory }}" \
           --clean="${{ inputs.clean-output }}" \
+          --preserve-custom="${{ inputs.preserve-custom }}" \
           --verbose
 
         # Move .gitbook.yml to root for GitBook compatibility

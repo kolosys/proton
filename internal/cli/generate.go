@@ -12,10 +12,11 @@ import (
 )
 
 var (
-	outputDir   string
-	clean       bool
-	configPath  string
-	projectPath string
+	outputDir      string
+	clean          bool
+	preserveCustom bool
+	configPath     string
+	projectPath    string
 )
 
 // generateCmd represents the generate command
@@ -35,7 +36,8 @@ Examples:
   proton generate                    # Generate docs for current directory
   proton generate ./my-project      # Generate docs for specific project
   proton generate --output docs     # Generate with custom output directory
-  proton generate --clean=false     # Don't clean output directory`,
+  proton generate --clean=false     # Don't clean output directory
+  proton generate --preserve-custom  # Preserve custom directories during clean`,
 	Args: cobra.MaximumNArgs(1),
 	RunE: runGenerate,
 }
@@ -68,6 +70,9 @@ func runGenerate(cmd *cobra.Command, args []string) error {
 	if cmd.Flags().Changed("clean") {
 		cfg.Output.Clean = clean
 	}
+	if cmd.Flags().Changed("preserve-custom") {
+		cfg.Output.PreserveCustom = preserveCustom
+	}
 
 	// Create generator
 	gen, err := generator.New(cfg, projectPath)
@@ -90,9 +95,11 @@ func init() {
 	// Local flags
 	generateCmd.Flags().StringVarP(&outputDir, "output", "o", "", "output directory (default: docs)")
 	generateCmd.Flags().BoolVar(&clean, "clean", true, "clean output directory before generation")
+	generateCmd.Flags().BoolVar(&preserveCustom, "preserve-custom", false, "preserve custom directories (core-concepts, advanced) when cleaning")
 	generateCmd.Flags().StringVarP(&configPath, "config", "c", "", "path to configuration file")
 
 	// Bind flags to viper
 	viper.BindPFlag("output.directory", generateCmd.Flags().Lookup("output"))
 	viper.BindPFlag("output.clean", generateCmd.Flags().Lookup("clean"))
+	viper.BindPFlag("output.preserve_custom", generateCmd.Flags().Lookup("preserve-custom"))
 }

@@ -72,6 +72,12 @@ func (e *Engine) loadBuiltinTemplates() error {
 		"index",
 		"getting-started-index",
 		"getting-started",
+		"getting-started-overview",
+		"getting-started-quick-start",
+		"getting-started-installation",
+		"core-concept-placeholder",
+		"advanced-performance",
+		"advanced-best-practices",
 		"index-api-reference",
 		"api-reference",
 		"examples-index",
@@ -234,6 +240,10 @@ func (e *Engine) templateFuncs() template.FuncMap {
 		"typeLink": func(typeName string) string {
 			// Simple type linking - could be enhanced for cross-references
 			return typeName
+		},
+		"trimSpace": strings.TrimSpace,
+		"now": func() string {
+			return "Auto-generated"
 		},
 	}
 }

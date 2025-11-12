@@ -32,9 +32,10 @@ type Repository struct {
 }
 
 type Output struct {
-	Directory     string `yaml:"directory" mapstructure:"directory"`
-	Clean         bool   `yaml:"clean" mapstructure:"clean"`
-	GitBookConfig bool   `yaml:"gitbook_config" mapstructure:"gitbook_config"`
+	Directory      string `yaml:"directory" mapstructure:"directory"`
+	Clean          bool   `yaml:"clean" mapstructure:"clean"`
+	PreserveCustom bool   `yaml:"preserve_custom" mapstructure:"preserve_custom"`
+	GitBookConfig  bool   `yaml:"gitbook_config" mapstructure:"gitbook_config"`
 }
 
 type Discovery struct {
@@ -185,6 +186,7 @@ func setDefaults(v *viper.Viper) {
 	// Output defaults
 	v.SetDefault("output.directory", "docs")
 	v.SetDefault("output.clean", true)
+	v.SetDefault("output.preserve_custom", false)
 	v.SetDefault("output.gitbook_config", true)
 
 	// Discovery defaults
