@@ -124,38 +124,6 @@ func (*Config) Save(path string) error
 **Returns:**
 - error
 
-### CustomGuide
-_No documentation available_
-
-#### Example Usage
-
-```go
-// Create a new CustomGuide
-customguide := CustomGuide{
-    Name: "example",
-    File: "example",
-    Title: "example",
-}
-```
-
-#### Type Definition
-
-```go
-type CustomGuide struct {
-    Name string `yaml:"name" mapstructure:"name"`
-    File string `yaml:"file" mapstructure:"file"`
-    Title string `yaml:"title" mapstructure:"title"`
-}
-```
-
-### Fields
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| Name | `string` |  |
-| File | `string` |  |
-| Title | `string` |  |
-
 ### CustomTemplate
 _No documentation available_
 
@@ -196,7 +164,6 @@ discovery := Discovery{
     Packages: Packages{},
     APIGeneration: APIGeneration{},
     Examples: Examples{},
-    Guides: Guides{},
 }
 ```
 
@@ -207,7 +174,6 @@ type Discovery struct {
     Packages Packages `yaml:"packages" mapstructure:"packages"`
     APIGeneration APIGeneration `yaml:"api_generation" mapstructure:"api_generation"`
     Examples Examples `yaml:"examples" mapstructure:"examples"`
-    Guides Guides `yaml:"guides" mapstructure:"guides"`
 }
 ```
 
@@ -218,7 +184,6 @@ type Discovery struct {
 | Packages | `Packages` |  |
 | APIGeneration | `APIGeneration` |  |
 | Examples | `Examples` |  |
-| Guides | `Guides` |  |
 
 ### Examples
 _No documentation available_
@@ -286,41 +251,6 @@ type Generation struct {
 | IncludeGeneratedNotice | `bool` |  |
 | IncludeTOC | `bool` |  |
 | MaxDepth | `int` |  |
-
-### Guides
-_No documentation available_
-
-#### Example Usage
-
-```go
-// Create a new Guides
-guides := Guides{
-    Enabled: true,
-    IncludeContributing: true,
-    IncludeFAQ: true,
-    CustomGuides: [],
-}
-```
-
-#### Type Definition
-
-```go
-type Guides struct {
-    Enabled bool `yaml:"enabled" mapstructure:"enabled"`
-    IncludeContributing bool `yaml:"include_contributing" mapstructure:"include_contributing"`
-    IncludeFAQ bool `yaml:"include_faq" mapstructure:"include_faq"`
-    CustomGuides []CustomGuide `yaml:"custom_guides" mapstructure:"custom_guides"`
-}
-```
-
-### Fields
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| Enabled | `bool` |  |
-| IncludeContributing | `bool` |  |
-| IncludeFAQ | `bool` |  |
-| CustomGuides | `[]CustomGuide` |  |
 
 ### Metadata
 _No documentation available_

@@ -1,4 +1,4 @@
-# config - Core Concepts
+# config
 
 > **Note**: This is a developer-maintained documentation page. The content here is not auto-generated and should be updated manually to explain the core concepts and architecture of the config package.
 
@@ -73,8 +73,8 @@ Explain how this package works with:
 
 ## Further Reading
 
-- [API Reference](../reference/api-reference/config.md) - Complete API documentation
-- [Examples](../reference/examples/README.md) - Practical examples
+- [API Reference](../api-reference/config.md) - Complete API documentation
+- [Examples](../examples/README.md) - Practical examples
 - [Best Practices](../advanced/best-practices.md) - Recommended patterns
 
 ---

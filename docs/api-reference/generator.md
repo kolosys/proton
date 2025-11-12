@@ -263,20 +263,6 @@ func (*Generator) generateGettingStartedDocumentation(context *templates.Context
 **Returns:**
 - error
 
-### generateGuidesDocumentation
-
-generateGuidesDocumentation generates guides documentation
-
-```go
-func (*Generator) generateGuidesDocumentation(context *templates.Context) error
-```
-
-**Parameters:**
-- `context` (*templates.Context)
-
-**Returns:**
-- error
-
 ### generateMainFiles
 
 generateMainFiles generates the main documentation files

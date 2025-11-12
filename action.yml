@@ -17,16 +17,6 @@ inputs:
     required: false
     default: "docs"
 
-  clean-output:
-    description: "Clean output directory before generation. When false, only auto-generated content (api-reference, examples, packages, README.md, SUMMARY.md) is cleaned, preserving custom content in guides and other directories."
-    required: false
-    default: "true"
-
-  preserve-custom:
-    description: "[deprecated] Preservation is now default behavior. Only api-reference and examples are regenerated."
-    required: false
-    default: "false"
-
   go-version:
     description: "Go version to use"
     required: false

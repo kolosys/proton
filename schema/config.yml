@@ -11,8 +11,6 @@ repository:
 
 output:
   directory: string      # Output directory (default: "docs")
-  clean: boolean        # Clean output directory before generation (default: true)
-  gitbook_config: boolean # Generate .gitbook.yml (default: true)
 
 discovery:
   packages:
@@ -34,31 +32,13 @@ discovery:
     enabled: boolean          # Generate examples (default: true)
     auto_discover: boolean    # Auto-discover examples (default: true)
     directories: []string     # Custom example directories
-    
-  guides:
-    enabled: boolean          # Generate guides (default: true)
-    include_contributing: boolean # Include contributing guide (default: true)
-    include_faq: boolean      # Include FAQ (default: true)
-    custom_guides: []object   # Custom guide definitions
-      - name: string
-        file: string
-        title: string
 
 templates:
   directory: string         # Custom templates directory (optional)
   custom_templates: []object # Custom template overrides
     - name: string          # Template name (e.g., "index", "api-reference")
       file: string          # Path to custom template file
-      
-gitbook:
-  title: string            # GitBook title (defaults to repository name)
-  description: string      # GitBook description (defaults to repository description)
-  theme: string           # GitBook theme (default: "default")
-  plugins: []string       # GitBook plugins
-  structure:
-    readme: string         # README file path (default: "README.md")
-    summary: string        # Summary file path (default: "SUMMARY.md")
-  
+
 metadata:
   version: string          # Documentation version (default: "latest")
   go_version: string       # Minimum Go version required

@@ -133,7 +133,6 @@ func (g *Generator) cleanOutputDirectory() error {
 		"examples":      true,
 		// Old structure - always clean these for migration
 		"reference":    true,
-		"guides":       true,
 		"packages":     true,
 		"README.md":    true,
 		"SUMMARY.md":   true,
@@ -559,64 +558,4 @@ Hello from Proton examples!
 
 	// Write markdown file
 	return os.WriteFile(markdownPath, []byte(markdownContent), 0644)
-}
-
-// generateGuidesDocumentation generates guides documentation
-func (g *Generator) generateGuidesDocumentation(context *templates.Context) error {
-	// Create guides directory
-	guidesDir := filepath.Join(g.outputPath, "guides")
-	if err := os.MkdirAll(guidesDir, 0755); err != nil {
-		return fmt.Errorf("failed to create guides directory: %w", err)
-	}
-
-	// Generate guides index
-	guidesIndexPath := filepath.Join(guidesDir, "README.md")
-	if err := g.templates.RenderToFile("guides-index", context, guidesIndexPath); err != nil {
-		return fmt.Errorf("failed to generate guides index: %w", err)
-	}
-
-	// Generate per-package guides
-	for _, pkg := range context.Packages {
-		pkgContext := &templates.PackageContext{
-			Context: context,
-			Package: pkg,
-		}
-
-		// Create package-specific guides directory
-		pkgGuidesDir := filepath.Join(guidesDir, pkg.Name)
-		if err := os.MkdirAll(pkgGuidesDir, 0755); err != nil {
-			return fmt.Errorf("failed to create guides directory for package %s: %w", pkg.Name, err)
-		}
-
-		// Generate package-specific best practices
-		bestPracticesPath := filepath.Join(pkgGuidesDir, "best-practices.md")
-		if err := g.templates.RenderToFile("package-best-practices", pkgContext, bestPracticesPath); err != nil {
-			return fmt.Errorf("failed to generate best practices for package %s: %w", pkg.Name, err)
-		}
-	}
-
-	// Generate global guides if enabled
-	if g.config.Discovery.Guides.IncludeContributing {
-		contributingPath := filepath.Join(guidesDir, "contributing.md")
-		if err := g.templates.RenderToFile("contributing", context, contributingPath); err != nil {
-			return fmt.Errorf("failed to generate contributing guide: %w", err)
-		}
-	}
-
-	if g.config.Discovery.Guides.IncludeFAQ {
-		faqPath := filepath.Join(guidesDir, "faq.md")
-		if err := g.templates.RenderToFile("faq", context, faqPath); err != nil {
-			return fmt.Errorf("failed to generate FAQ: %w", err)
-		}
-	}
-
-	// Generate custom guides
-	for _, guide := range g.config.Discovery.Guides.CustomGuides {
-		guidePath := filepath.Join(guidesDir, fmt.Sprintf("%s.md", guide.Name))
-		if err := g.templates.RenderToFile(guide.Name, context, guidePath); err != nil {
-			return fmt.Errorf("failed to generate custom guide %s: %w", guide.Name, err)
-		}
-	}
-
-	return nil
 }

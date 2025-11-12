@@ -1,4 +1,4 @@
-# cli - Core Concepts
+# cli
 
 > **Note**: This is a developer-maintained documentation page. The content here is not auto-generated and should be updated manually to explain the core concepts and architecture of the cli package.
 
@@ -73,8 +73,8 @@ Explain how this package works with:
 
 ## Further Reading
 
-- [API Reference](../reference/api-reference/cli.md) - Complete API documentation
-- [Examples](../reference/examples/README.md) - Practical examples
+- [API Reference](../api-reference/cli.md) - Complete API documentation
+- [Examples](../examples/README.md) - Practical examples
 - [Best Practices](../advanced/best-practices.md) - Recommended patterns
 
 ---

@@ -101,8 +101,6 @@ repository:
 
 output:
   directory: docs
-  clean: true
-  gitbook_config: true
 
 discovery:
   packages:
@@ -122,14 +120,6 @@ discovery:
     enabled: true
     auto_discover: true
 
-  guides:
-    enabled: true
-    include_contributing: true
-    include_faq: true
-
-gitbook:
-  title: My Library Documentation
-  description: Complete documentation for My Library
 ```
 
 ### Configuration Schema
@@ -142,26 +132,17 @@ Proton generates a well-organized documentation structure:
 
 ```
 docs/
-├── README.md                    # Main documentation index
-├── .gitbook.yml                 # GitBook configuration
-├── SUMMARY.md                   # GitBook navigation
 ├── getting-started/
-│   ├── README.md                # Getting started overview
-│   └── [package-name].md        # Package-specific getting started guides
+│   └── quick-start.md
+├── core-concepts/
+│   └── core-concepts.md
+├── advanced/
+│   └── advanced.md
 ├── api-reference/
-│   ├── README.md                # API reference index
-│   └── [package-name].md        # Package-specific API documentation
+│   └── [package-name].md
 ├── examples/
-│   ├── README.md                # Examples overview
-│   └── [example-category]/      # Example categories
-│       ├── README.md            # Category overview
-│       └── [example-name].md    # Individual examples
-└── guides/
-    ├── README.md                # Guides overview
-    ├── contributing.md          # Contributing guidelines
-    ├── faq.md                   # Frequently asked questions
-    └── [package-name]/          # Package-specific guides
-        └── best-practices.md    # Package best practices
+│   └── [example-category]/
+│       └── [example-name].md
 ```
 
 ## 🎨 Templates
@@ -170,15 +151,8 @@ Proton comes with built-in templates that work great out of the box, but you can
 
 ### Built-in Templates
 
-- `index.md` - Main documentation page
-- `packages-index.md` - Package overview
-- `package.md` - Individual package documentation
 - `api-reference.md` - API reference documentation
-- `examples-index.md` - Examples overview
-- `guides-index.md` - Guides overview
-- `contributing.md` - Contributing guidelines
-- `faq.md` - FAQ page
-- `gitbook-config.yml` - GitBook configuration
+- `examples.md` - Examples documentation
 
 ### Custom Templates
 
@@ -233,8 +207,6 @@ Proton comes with built-in templates that work great out of the box, but you can
 | ------------------ | -------------------------- | ------------------------------------------ |
 | `config-file`      | Path to configuration file | `.proton/config.yml`                       |
 | `output-directory` | Output directory           | `docs`                                     |
-| `clean-output`     | Clean output directory     | `true`                                     |
-| `deploy-to-pages`  | Deploy to GitHub Pages     | `false`                                    |
 | `deploy-to-branch` | Deploy to specific branch  | ``                                         |
 | `auto-commit`      | Auto-commit changes        | `false`                                    |
 | `commit-message`   | Commit message             | `📚 Update documentation (auto-generated)` |
@@ -243,8 +215,6 @@ Proton comes with built-in templates that work great out of the box, but you can
 | `token`            | GitHub token for auth      | `${{ github.token }}`                      |
 
 ### Selective Cleaning
-
-When `clean-output` is set to `false`, Proton preserves custom content in guides and other directories while only regenerating auto-generated content (api-reference, examples, packages, README.md, SUMMARY.md).
 
 ## 📖 Examples
 

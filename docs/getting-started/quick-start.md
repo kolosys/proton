@@ -53,7 +53,7 @@ func main() {
 #### Available Functions
 - **Execute** - Execute adds all child commands to the root command and sets flags appropriately. It initializes the CLI application and runs the root command. Returns error if command execution fails.
 
-For detailed API documentation, see the [cli API Reference](../reference/api-reference/cli.md).
+For detailed API documentation, see the [cli API Reference](../api-reference/cli.md).
 
 ### Using config
 
@@ -78,12 +78,10 @@ func main() {
 #### Available Types
 - **APIGeneration** - 
 - **Config** - Config represents the complete configuration for Proton
-- **CustomGuide** - 
 - **CustomTemplate** - 
 - **Discovery** - 
 - **Examples** - 
 - **Generation** - 
-- **Guides** - 
 - **Metadata** - 
 - **Output** - 
 - **Package** - 
@@ -91,7 +89,7 @@ func main() {
 - **Repository** - 
 - **Templates** - 
 
-For detailed API documentation, see the [config API Reference](../reference/api-reference/config.md).
+For detailed API documentation, see the [config API Reference](../api-reference/config.md).
 
 ### Using discovery
 
@@ -122,7 +120,7 @@ func main() {
 - **Parameter** - Parameter represents a function parameter
 - **Result** - Result represents a function return value
 
-For detailed API documentation, see the [discovery API Reference](../reference/api-reference/discovery.md).
+For detailed API documentation, see the [discovery API Reference](../api-reference/discovery.md).
 
 ### Using generator
 
@@ -147,7 +145,7 @@ func main() {
 #### Available Types
 - **Generator** - Generator handles the complete documentation generation process
 
-For detailed API documentation, see the [generator API Reference](../reference/api-reference/generator.md).
+For detailed API documentation, see the [generator API Reference](../api-reference/generator.md).
 
 ### Using interfaces
 
@@ -179,7 +177,7 @@ func main() {
 - **Template** - Template represents a documentation template
 - **Writer** - Writer provides file writing capabilities
 
-For detailed API documentation, see the [interfaces API Reference](../reference/api-reference/interfaces.md).
+For detailed API documentation, see the [interfaces API Reference](../api-reference/interfaces.md).
 
 ### Using templates
 
@@ -206,7 +204,7 @@ func main() {
 - **Engine** - Engine handles template rendering for documentation generation
 - **PackageContext** - PackageContext provides package-specific data for template rendering
 
-For detailed API documentation, see the [templates API Reference](../reference/api-reference/templates.md).
+For detailed API documentation, see the [templates API Reference](../api-reference/templates.md).
 
 ## Step-by-Step Tutorial
 
@@ -316,15 +314,15 @@ func main() {
 Now that you've seen the basics, explore:
 
 - **[Core Concepts](../core-concepts/)** - Understanding the library architecture
-- **[API Reference](../reference/api-reference/README.md)** - Complete API documentation
-- **[Examples](../reference/examples/README.md)** - More detailed examples
+- **[API Reference](../api-reference/)** - Complete API documentation
+- **[Examples](../examples/README.md)** - More detailed examples
 - **[Advanced Topics](../advanced/)** - Performance tuning and advanced patterns
 
 ## Getting Help
 
 If you run into issues:
 
-1. Check the [API Reference](../reference/api-reference/README.md)
-2. Browse the [Examples](../reference/examples/README.md)
+1. Check the [API Reference](../api-reference/)
+2. Browse the [Examples](../examples/README.md)
 3. Visit the [GitHub Issues](https://github.com/kolosys/proton/issues) page
 

@@ -29,11 +29,6 @@ discovery:
         enabled: true
         auto_discover: true
         directories: []
-    guides:
-        enabled: true
-        include_contributing: true
-        include_faq: true
-        custom_guides: []
 templates:
     directory: ""
     custom_templates: []

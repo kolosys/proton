@@ -24,6 +24,7 @@ env:
 jobs:
   generate:
     runs-on: ubuntu-latest
+    if: github.ref_type != 'tag'
     permissions:
       contents: read
       pages: write

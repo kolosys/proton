@@ -166,6 +166,6 @@ Now that you have proton installed, check out the [Quick Start Guide](quick-star
 ## Additional Resources
 
 - [Quick Start Guide](quick-start.md)
-- [API Reference](../reference/api-reference/README.md)
-- [Examples](../reference/examples/README.md)
+- [API Reference](../api-reference/)
+- [Examples](../examples/README.md)
 

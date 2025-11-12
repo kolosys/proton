@@ -106,11 +106,6 @@ func createDefaultConfig(projectPath string) *config.Config {
 				Enabled:      true,
 				AutoDiscover: true,
 			},
-			Guides: config.Guides{
-				Enabled:             true,
-				IncludeContributing: true,
-				IncludeFAQ:          true,
-			},
 		},
 		Metadata: config.Metadata{
 			Version: "latest",

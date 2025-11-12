@@ -50,18 +50,6 @@ discovery:
       - ./examples
       - ./pkg/*/examples
 
-  guides:
-    enabled: true
-    include_contributing: true
-    include_faq: true
-    custom_guides:
-      - name: architecture
-        file: ./docs/architecture.md
-        title: Architecture Overview
-      - name: deployment
-        file: ./docs/deployment.md
-        title: Deployment Guide
-
 templates:
   # Use custom templates for branding
   directory: ./docs/templates

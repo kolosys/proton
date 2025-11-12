@@ -32,11 +32,6 @@ discovery:
     enabled: true
     auto_discover: true
 
-  guides:
-    enabled: true
-    include_contributing: true
-    include_faq: true
-
 metadata:
   version: latest
   go_version: "1.24"

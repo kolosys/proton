@@ -40,7 +40,6 @@ type Discovery struct {
 	Packages      Packages      `yaml:"packages" mapstructure:"packages"`
 	APIGeneration APIGeneration `yaml:"api_generation" mapstructure:"api_generation"`
 	Examples      Examples      `yaml:"examples" mapstructure:"examples"`
-	Guides        Guides        `yaml:"guides" mapstructure:"guides"`
 }
 
 type Packages struct {
@@ -67,19 +66,6 @@ type Examples struct {
 	Enabled      bool     `yaml:"enabled" mapstructure:"enabled"`
 	AutoDiscover bool     `yaml:"auto_discover" mapstructure:"auto_discover"`
 	Directories  []string `yaml:"directories" mapstructure:"directories"`
-}
-
-type Guides struct {
-	Enabled             bool          `yaml:"enabled" mapstructure:"enabled"`
-	IncludeContributing bool          `yaml:"include_contributing" mapstructure:"include_contributing"`
-	IncludeFAQ          bool          `yaml:"include_faq" mapstructure:"include_faq"`
-	CustomGuides        []CustomGuide `yaml:"custom_guides" mapstructure:"custom_guides"`
-}
-
-type CustomGuide struct {
-	Name  string `yaml:"name" mapstructure:"name"`
-	File  string `yaml:"file" mapstructure:"file"`
-	Title string `yaml:"title" mapstructure:"title"`
 }
 
 type Templates struct {
@@ -170,8 +156,7 @@ func setDefaults(v *viper.Viper) {
 
 	// Output defaults
 	v.SetDefault("output.directory", "docs")
-	v.SetDefault("output.clean", true)
-	v.SetDefault("output.preserve_custom", false)
+	v.SetDefault("output.clean", false)
 
 	// Discovery defaults
 	v.SetDefault("discovery.packages.auto_discover", true)
@@ -185,10 +170,6 @@ func setDefaults(v *viper.Viper) {
 
 	v.SetDefault("discovery.examples.enabled", true)
 	v.SetDefault("discovery.examples.auto_discover", true)
-
-	v.SetDefault("discovery.guides.enabled", true)
-	v.SetDefault("discovery.guides.include_contributing", true)
-	v.SetDefault("discovery.guides.include_faq", true)
 
 	// Metadata defaults
 	v.SetDefault("metadata.version", "latest")
