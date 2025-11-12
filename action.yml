@@ -88,9 +88,16 @@ runs:
     - name: Install Proton
       shell: bash
       run: |
-        if [ "${{ inputs.proton-version }}" = "latest" ]; then
+        # Check if we're in the proton repository itself (has cmd/proton/main.go)
+        if [ -f "cmd/proton/main.go" ]; then
+          echo "Building Proton from local source..."
+          go build -o proton cmd/proton/main.go
+          sudo mv proton /usr/local/bin/proton
+        elif [ "${{ inputs.proton-version }}" = "latest" ]; then
+          echo "Installing latest Proton from GitHub..."
           go install github.com/kolosys/proton/cmd/proton@latest
         else
+          echo "Installing Proton version ${{ inputs.proton-version }} from GitHub..."
           go install github.com/kolosys/proton/cmd/proton@${{ inputs.proton-version }}
         fi
 
