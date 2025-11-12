@@ -106,8 +106,6 @@ runs:
         proton generate \
           --config "${{ inputs.config-file }}" \
           --output "${{ inputs.output-directory }}" \
-          --clean="${{ inputs.clean-output }}" \
-          --preserve-custom="${{ inputs.preserve-custom }}" \
           --verbose
 
         echo "docs-path=${{ inputs.output-directory }}" >> $GITHUB_OUTPUT

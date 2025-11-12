@@ -45,6 +45,4 @@ jobs:
         with:
           token: ${{ steps.app-token.outputs.token }}
           output-directory: ${{ github.event.inputs.output_directory || 'docs' }}
-          # deploy-to-pages: ${{ github.ref == 'refs/heads/main' }}
-          # deploy-to-branch: ${{ github.event.inputs.output_branch || '' }}
           auto-commit: true
