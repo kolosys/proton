@@ -1,8 +1,13 @@
 package templates
 
 import (
+	"bytes"
 	"embed"
 	"fmt"
+	"go/ast"
+	"go/doc"
+	"go/printer"
+	"go/token"
 	"os"
 	"path/filepath"
 	"strings"
@@ -230,7 +235,39 @@ func (e *Engine) templateFuncs() template.FuncMap {
 		"now": func() string {
 			return "Auto-generated"
 		},
+		"formatDecl": func(v *doc.Value) string {
+			return e.formatValueDeclaration(v)
+		},
 	}
+}
+
+// formatValueDeclaration formats a doc.Value declaration as a string
+func (e *Engine) formatValueDeclaration(v *doc.Value) string {
+	if v == nil || v.Decl == nil {
+		return ""
+	}
+
+	var buf bytes.Buffer
+	fset := token.NewFileSet()
+	
+	// Print each spec in the declaration
+	for i, spec := range v.Decl.Specs {
+		if i > 0 {
+			buf.WriteString("\n")
+		}
+		
+		// Create a temporary declaration with just this spec
+		decl := &ast.GenDecl{
+			Tok:   v.Decl.Tok,
+			Specs: []ast.Spec{spec},
+		}
+		
+		if err := printer.Fprint(&buf, fset, decl); err != nil {
+			return fmt.Sprintf("// Error formatting declaration: %v", err)
+		}
+	}
+	
+	return buf.String()
 }
 
 // RenderToFile renders a template to a file

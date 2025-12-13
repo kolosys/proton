@@ -252,10 +252,22 @@ func (d *Discoverer) parsePackage(pkgPath string) (*PackageInfo, error) {
 	return d.parseASTPackage(mainPkg, fullPath)
 }
 
+// isExported checks if a name is exported (starts with uppercase letter)
+func isExported(name string) bool {
+	if len(name) == 0 {
+		return false
+	}
+	return strings.ToUpper(name[:1]) == name[:1]
+}
+
 // parseASTPackage creates PackageInfo from an AST package
 func (d *Discoverer) parseASTPackage(astPkg *ast.Package, pkgPath string) (*PackageInfo, error) {
-	// Create doc package - always use AllDecls for better documentation extraction
-	docPkg := doc.New(astPkg, "./", doc.AllDecls)
+	// Create doc package with appropriate mode based on IncludeUnexported setting
+	mode := doc.Mode(0)
+	if d.config.Discovery.APIGeneration.IncludeUnexported {
+		mode = doc.AllDecls
+	}
+	docPkg := doc.New(astPkg, "./", mode)
 
 	// Extract package description from doc
 	description := docPkg.Doc
@@ -276,34 +288,34 @@ func (d *Discoverer) parseASTPackage(astPkg *ast.Package, pkgPath string) (*Pack
 	// Determine import path
 	importPath := d.getImportPath(pkgPath)
 
-	// Filter and enhance functions to only include public ones (starting with uppercase)
+	// Filter and enhance functions
 	var enhancedFuncs []*EnhancedFunc
 	for _, fn := range docPkg.Funcs {
-		if len(fn.Name) > 0 && strings.ToUpper(fn.Name[:1]) == fn.Name[:1] {
+		if d.config.Discovery.APIGeneration.IncludeUnexported || isExported(fn.Name) {
 			enhancedFuncs = append(enhancedFuncs, d.enhanceFunction(fn, astPkg))
 		}
 	}
 
-	// Filter and enhance types to only include public ones (starting with uppercase)
+	// Filter and enhance types
 	var enhancedTypes []*EnhancedType
 	for _, typ := range docPkg.Types {
-		if len(typ.Name) > 0 && strings.ToUpper(typ.Name[:1]) == typ.Name[:1] {
+		if d.config.Discovery.APIGeneration.IncludeUnexported || isExported(typ.Name) {
 			enhancedTypes = append(enhancedTypes, d.enhanceType(typ, astPkg))
 		}
 	}
 
-	// Filter variables to only include public ones (starting with uppercase)
+	// Filter variables
 	var publicVars []*doc.Value
 	for _, v := range docPkg.Vars {
-		if len(v.Names) > 0 && len(v.Names[0]) > 0 && strings.ToUpper(v.Names[0][:1]) == v.Names[0][:1] {
+		if len(v.Names) > 0 && (d.config.Discovery.APIGeneration.IncludeUnexported || isExported(v.Names[0])) {
 			publicVars = append(publicVars, v)
 		}
 	}
 
-	// Filter constants to only include public ones (starting with uppercase)
+	// Filter constants
 	var publicConsts []*doc.Value
 	for _, c := range docPkg.Consts {
-		if len(c.Names) > 0 && len(c.Names[0]) > 0 && strings.ToUpper(c.Names[0][:1]) == c.Names[0][:1] {
+		if len(c.Names) > 0 && (d.config.Discovery.APIGeneration.IncludeUnexported || isExported(c.Names[0])) {
 			publicConsts = append(publicConsts, c)
 		}
 	}
@@ -545,15 +557,18 @@ func (d *Discoverer) enhanceType(typ *doc.Type, astPkg *ast.Package) *EnhancedTy
 
 			if len(field.Names) > 0 {
 				for _, name := range field.Names {
-					enhanced.Fields = append(enhanced.Fields, &Field{
-						Name: name.Name,
-						Type: fieldType,
-						Tag:  fieldTag,
-						Doc:  d.extractFieldDoc(field),
-					})
+					// Only include exported fields unless IncludeUnexported is true
+					if d.config.Discovery.APIGeneration.IncludeUnexported || isExported(name.Name) {
+						enhanced.Fields = append(enhanced.Fields, &Field{
+							Name: name.Name,
+							Type: fieldType,
+							Tag:  fieldTag,
+							Doc:  d.extractFieldDoc(field),
+						})
+					}
 				}
 			} else {
-				// Embedded field
+				// Embedded field - always include if the type itself is included
 				enhanced.Fields = append(enhanced.Fields, &Field{
 					Name: "",
 					Type: fieldType,
@@ -564,19 +579,23 @@ func (d *Discoverer) enhanceType(typ *doc.Type, astPkg *ast.Package) *EnhancedTy
 		}
 	}
 
-	// Enhance methods
+	// Enhance methods - filter by export status
 	for _, method := range typ.Methods {
-		enhancedMethod := d.enhanceFunction(method, astPkg)
-		// For interface methods, try to extract documentation from the interface doc
-		if enhanced.TypeKind == "interface" && enhancedMethod.Doc == "" {
-			enhancedMethod.Doc = d.extractInterfaceMethodDoc(typ, method.Name)
+		if d.config.Discovery.APIGeneration.IncludeUnexported || isExported(method.Name) {
+			enhancedMethod := d.enhanceFunction(method, astPkg)
+			// For interface methods, try to extract documentation from the interface doc
+			if enhanced.TypeKind == "interface" && enhancedMethod.Doc == "" {
+				enhancedMethod.Doc = d.extractInterfaceMethodDoc(typ, method.Name)
+			}
+			enhanced.Methods = append(enhanced.Methods, enhancedMethod)
 		}
-		enhanced.Methods = append(enhanced.Methods, enhancedMethod)
 	}
 
-	// Enhance constructor functions
+	// Enhance constructor functions - filter by export status
 	for _, fn := range typ.Funcs {
-		enhanced.Funcs = append(enhanced.Funcs, d.enhanceFunction(fn, astPkg))
+		if d.config.Discovery.APIGeneration.IncludeUnexported || isExported(fn.Name) {
+			enhanced.Funcs = append(enhanced.Funcs, d.enhanceFunction(fn, astPkg))
+		}
 	}
 
 	return enhanced
@@ -598,9 +617,10 @@ func (d *Discoverer) formatType(expr ast.Expr) string {
 		return fmt.Sprintf("map[%s]%s", d.formatType(t.Key), d.formatType(t.Value))
 	case *ast.ChanType:
 		prefix := "chan"
-		if t.Dir == ast.SEND {
+		switch t.Dir {
+		case ast.SEND:
 			prefix = "chan<-"
-		} else if t.Dir == ast.RECV {
+		case ast.RECV:
 			prefix = "<-chan"
 		}
 		return prefix + " " + d.formatType(t.Value)

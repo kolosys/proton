@@ -14,12 +14,12 @@ Complete API documentation for the {{.Package.Name}} package.
 
 {{- range .Package.Constants}}
 
-### {{join .Names ", "}}
+**{{join .Names ", "}}**
 
 {{.Doc}}
 
 ```go
-{{range .Decl.Specs}}{{.}}{{end}}
+{{formatDecl .}}
 ```
 
 {{- end}}
@@ -31,12 +31,12 @@ Complete API documentation for the {{.Package.Name}} package.
 
 {{- range .Package.Variables}}
 
-### {{join .Names ", "}}
+**{{join .Names ", "}}**
 
 {{.Doc}}
 
 ```go
-{{range .Decl.Specs}}{{.}}{{end}}
+{{formatDecl .}}
 ```
 
 {{- end}}
