@@ -53,9 +53,7 @@ Engine handles template rendering for documentation generation
 ```go
 // Create a new Engine
 engine := Engine{
-    config: &/* value */{},
-    projectPath: "example",
-    templates: map[],
+
 }
 ```
 
@@ -63,19 +61,8 @@ engine := Engine{
 
 ```go
 type Engine struct {
-    config *config.Config
-    projectPath string
-    templates map[string]*template.Template
 }
 ```
-
-### Fields
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| config | `*config.Config` |  |
-| projectPath | `string` |  |
-| templates | `map[string]*template.Template` |  |
 
 ### Constructor Functions
 
@@ -156,63 +143,6 @@ func (*Engine) RenderToString(templateName string, data interface{}) (string, er
 **Returns:**
 - string
 - error
-
-### loadBuiltinTemplates
-
-loadBuiltinTemplates loads the built-in templates from the embedded filesystem
-
-```go
-func (*Engine) loadBuiltinTemplates() error
-```
-
-**Parameters:**
-  None
-
-**Returns:**
-- error
-
-### loadCustomTemplate
-
-loadCustomTemplate loads a single custom template
-
-```go
-func (*Engine) loadCustomTemplate(name, filePath string) error
-```
-
-**Parameters:**
-- `name` (string)
-- `filePath` (string)
-
-**Returns:**
-- error
-
-### loadCustomTemplates
-
-loadCustomTemplates loads templates from the custom templates directory
-
-```go
-func (*Engine) loadCustomTemplates() error
-```
-
-**Parameters:**
-  None
-
-**Returns:**
-- error
-
-### templateFuncs
-
-templateFuncs returns the functions available in templates
-
-```go
-func (*Engine) templateFuncs() template.FuncMap
-```
-
-**Parameters:**
-  None
-
-**Returns:**
-- template.FuncMap
 
 ### PackageContext
 PackageContext provides package-specific data for template rendering
