@@ -52,6 +52,11 @@ inputs:
     required: false
     default: "📚 Update documentation [skip ci]"
 
+  auto-pull:
+    description: "Pull latest changes before auto-commit"
+    required: false
+    default: "false"
+
 outputs:
   docs-path:
     description: "Path to generated documentation"
@@ -137,6 +142,15 @@ runs:
         create_branch: true
         skip_dirty_check: true
         disable_globbing: true
+
+    - name: Pull latest changes before auto-commit
+      if: inputs.auto-commit == 'true' && inputs.deploy-to-branch == '' && inputs.auto-pull == 'true'
+      shell: bash
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        BRANCH=$(git rev-parse --abbrev-ref HEAD)
+        git pull --rebase origin "$BRANCH" || git pull origin "$BRANCH"
 
     - name: Auto-commit documentation
       if: inputs.auto-commit == 'true' && inputs.deploy-to-branch == ''
