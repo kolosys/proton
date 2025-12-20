@@ -56,6 +56,7 @@ benchmarks := Benchmarks{
     Enabled: true,
     OutputFile: "example",
     Pattern: "example",
+    SkipEmptyPackages: true,
 }
 ```
 
@@ -66,6 +67,7 @@ type Benchmarks struct {
     Enabled bool `yaml:"enabled" mapstructure:"enabled"`
     OutputFile string `yaml:"output_file" mapstructure:"output_file"`
     Pattern string `yaml:"pattern" mapstructure:"pattern"`
+    SkipEmptyPackages bool `yaml:"skip_empty_packages" mapstructure:"skip_empty_packages"`
 }
 ```
 
@@ -76,6 +78,7 @@ type Benchmarks struct {
 | Enabled | `bool` |  |
 | OutputFile | `string` |  |
 | Pattern | `string` |  |
+| SkipEmptyPackages | `bool` |  |
 
 ### Config
 Config represents the complete configuration for Proton
