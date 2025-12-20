@@ -45,6 +45,38 @@ type APIGeneration struct {
 | IncludeTests | `bool` |  |
 | IncludeExamples | `bool` |  |
 
+### Benchmarks
+_No documentation available_
+
+#### Example Usage
+
+```go
+// Create a new Benchmarks
+benchmarks := Benchmarks{
+    Enabled: true,
+    OutputFile: "example",
+    Pattern: "example",
+}
+```
+
+#### Type Definition
+
+```go
+type Benchmarks struct {
+    Enabled bool `yaml:"enabled" mapstructure:"enabled"`
+    OutputFile string `yaml:"output_file" mapstructure:"output_file"`
+    Pattern string `yaml:"pattern" mapstructure:"pattern"`
+}
+```
+
+### Fields
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| Enabled | `bool` |  |
+| OutputFile | `string` |  |
+| Pattern | `string` |  |
+
 ### Config
 Config represents the complete configuration for Proton
 
@@ -164,6 +196,7 @@ discovery := Discovery{
     Packages: Packages{},
     APIGeneration: APIGeneration{},
     Examples: Examples{},
+    Benchmarks: Benchmarks{},
 }
 ```
 
@@ -174,6 +207,7 @@ type Discovery struct {
     Packages Packages `yaml:"packages" mapstructure:"packages"`
     APIGeneration APIGeneration `yaml:"api_generation" mapstructure:"api_generation"`
     Examples Examples `yaml:"examples" mapstructure:"examples"`
+    Benchmarks Benchmarks `yaml:"benchmarks" mapstructure:"benchmarks"`
 }
 ```
 
@@ -184,6 +218,7 @@ type Discovery struct {
 | Packages | `Packages` |  |
 | APIGeneration | `APIGeneration` |  |
 | Examples | `Examples` |  |
+| Benchmarks | `Benchmarks` |  |
 
 ### Examples
 _No documentation available_
