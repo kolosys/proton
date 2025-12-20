@@ -50,4 +50,3 @@ const PublicConst = "public"
 
 // privateConst is an unexported constant
 const privateConst = "private"
-
