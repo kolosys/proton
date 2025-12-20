@@ -10,6 +10,72 @@ Complete API documentation for the templates package.
 
 ## Types
 
+### BenchmarkContext
+BenchmarkContext provides benchmark-specific data for template rendering
+
+#### Example Usage
+
+```go
+// Create a new BenchmarkContext
+benchmarkcontext := BenchmarkContext{
+    Benchmarks: [],
+}
+```
+
+#### Type Definition
+
+```go
+type BenchmarkContext struct {
+    *PackageContext
+    Benchmarks []*BenchmarkResult `json:"benchmarks"`
+}
+```
+
+### Fields
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| **PackageContext | `*PackageContext` |  |
+| Benchmarks | `[]*BenchmarkResult` |  |
+
+### BenchmarkResult
+BenchmarkResult represents benchmark data for template rendering
+
+#### Example Usage
+
+```go
+// Create a new BenchmarkResult
+benchmarkresult := BenchmarkResult{
+    Name: "example",
+    NsPerOp: 42,
+    BytesPerOp: 42,
+    AllocsPerOp: 42,
+    Runs: 42,
+}
+```
+
+#### Type Definition
+
+```go
+type BenchmarkResult struct {
+    Name string `json:"name"`
+    NsPerOp int64 `json:"ns_per_op"`
+    BytesPerOp int64 `json:"bytes_per_op"`
+    AllocsPerOp int64 `json:"allocs_per_op"`
+    Runs int `json:"runs"`
+}
+```
+
+### Fields
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| Name | `string` |  |
+| NsPerOp | `int64` |  |
+| BytesPerOp | `int64` |  |
+| AllocsPerOp | `int64` |  |
+| Runs | `int` |  |
+
 ### Context
 Context provides data for template rendering
 
