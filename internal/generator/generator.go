@@ -616,6 +616,11 @@ func (g *Generator) generateBenchmarkDocumentation(packages []*discovery.Package
 		// Get benchmarks for this package
 		pkgBenchmarks := runner.GetBenchmarksForPackage(pkg.ImportPath, allBenchmarks)
 
+		// Skip packages without benchmarks if option is enabled
+		if g.config.Discovery.Benchmarks.SkipEmptyPackages && len(pkgBenchmarks) == 0 {
+			continue
+		}
+
 		// Convert to template format
 		var templateBenchmarks []*templates.BenchmarkResult
 		for _, bench := range pkgBenchmarks {
@@ -628,7 +633,7 @@ func (g *Generator) generateBenchmarkDocumentation(packages []*discovery.Package
 			})
 		}
 
-		// Create benchmark context (always generate, even if no benchmarks)
+		// Create benchmark context
 		benchmarkContext := &templates.BenchmarkContext{
 			PackageContext: &templates.PackageContext{
 				Context: context,

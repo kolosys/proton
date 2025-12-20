@@ -70,9 +70,10 @@ type Examples struct {
 }
 
 type Benchmarks struct {
-	Enabled    bool   `yaml:"enabled" mapstructure:"enabled"`
-	OutputFile string `yaml:"output_file" mapstructure:"output_file"`
-	Pattern    string `yaml:"pattern" mapstructure:"pattern"`
+	Enabled           bool   `yaml:"enabled" mapstructure:"enabled"`
+	OutputFile        string `yaml:"output_file" mapstructure:"output_file"`
+	Pattern           string `yaml:"pattern" mapstructure:"pattern"`
+	SkipEmptyPackages bool   `yaml:"skip_empty_packages" mapstructure:"skip_empty_packages"`
 }
 
 type Templates struct {
@@ -181,6 +182,7 @@ func setDefaults(v *viper.Viper) {
 	v.SetDefault("discovery.benchmarks.enabled", false)
 	v.SetDefault("discovery.benchmarks.pattern", "./...")
 	v.SetDefault("discovery.benchmarks.output_file", "")
+	v.SetDefault("discovery.benchmarks.skip_empty_packages", false)
 
 	// Metadata defaults
 	v.SetDefault("metadata.version", "latest")

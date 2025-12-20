@@ -137,6 +137,7 @@ discovery:
   benchmarks:
     enabled: true
     pattern: "./..."
+    skip_empty_packages: false
     # Optional: load from file instead of running
     # output_file: "benchmark_results.txt"
 ```
@@ -266,6 +267,7 @@ discovery:
   benchmarks:
     enabled: true
     pattern: "./..."
+    skip_empty_packages: false # Skip packages without benchmarks
     # Optional: load from pre-generated file instead of running
     # output_file: "benchmark_results.txt"
 ```
