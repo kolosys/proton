@@ -1,0 +1,23 @@
+?   	github.com/kolosys/proton/cmd/proton	[no test files]
+?   	github.com/kolosys/proton/internal/benchmarks	[no test files]
+goos: linux
+goarch: amd64
+pkg: github.com/kolosys/proton/internal/cli
+cpu: Intel(R) Core(TM) i7-9700K CPU @ 3.60GHz
+BenchmarkCLIExecute-8   	1000000000	         0.3124 ns/op	       0 B/op	       0 allocs/op
+BenchmarkConfigLoad-8   	1000000000	         0.2133 ns/op	       0 B/op	       0 allocs/op
+PASS
+ok  	github.com/kolosys/proton/internal/cli	0.589s
+goos: linux
+goarch: amd64
+pkg: github.com/kolosys/proton/internal/config
+cpu: Intel(R) Core(TM) i7-9700K CPU @ 3.60GHz
+BenchmarkConfigLoad-8   	    6436	    175089 ns/op	   57840 B/op	     870 allocs/op
+BenchmarkConfigSave-8   	    4047	    385361 ns/op	   81640 B/op	     212 allocs/op
+PASS
+ok  	github.com/kolosys/proton/internal/config	4.625s
+?   	github.com/kolosys/proton/internal/discovery	[no test files]
+?   	github.com/kolosys/proton/internal/generator	[no test files]
+?   	github.com/kolosys/proton/internal/interfaces	[no test files]
+?   	github.com/kolosys/proton/internal/templates	[no test files]
+?   	github.com/kolosys/proton/test_export	[no test files]
