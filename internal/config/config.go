@@ -40,6 +40,7 @@ type Discovery struct {
 	Packages      Packages      `yaml:"packages" mapstructure:"packages"`
 	APIGeneration APIGeneration `yaml:"api_generation" mapstructure:"api_generation"`
 	Examples      Examples      `yaml:"examples" mapstructure:"examples"`
+	Benchmarks    Benchmarks    `yaml:"benchmarks" mapstructure:"benchmarks"`
 }
 
 type Packages struct {
@@ -66,6 +67,12 @@ type Examples struct {
 	Enabled      bool     `yaml:"enabled" mapstructure:"enabled"`
 	AutoDiscover bool     `yaml:"auto_discover" mapstructure:"auto_discover"`
 	Directories  []string `yaml:"directories" mapstructure:"directories"`
+}
+
+type Benchmarks struct {
+	Enabled    bool   `yaml:"enabled" mapstructure:"enabled"`
+	OutputFile string `yaml:"output_file" mapstructure:"output_file"`
+	Pattern    string `yaml:"pattern" mapstructure:"pattern"`
 }
 
 type Templates struct {
@@ -171,8 +178,13 @@ func setDefaults(v *viper.Viper) {
 	v.SetDefault("discovery.examples.enabled", true)
 	v.SetDefault("discovery.examples.auto_discover", true)
 
+	v.SetDefault("discovery.benchmarks.enabled", false)
+	v.SetDefault("discovery.benchmarks.pattern", "./...")
+	v.SetDefault("discovery.benchmarks.output_file", "")
+
 	// Metadata defaults
 	v.SetDefault("metadata.version", "latest")
+	v.SetDefault("metadata.go_version", "1.21")
 	v.SetDefault("metadata.license", "MIT")
 
 	// Generation defaults
@@ -189,6 +201,7 @@ func autoDetectRepo(cfg *Config, projectPath string) error {
 	if data, err := os.ReadFile(goModPath); err == nil {
 		lines := strings.Split(string(data), "\n")
 		for _, line := range lines {
+			line = strings.TrimSpace(line)
 			if strings.HasPrefix(line, "module ") {
 				modulePath := strings.TrimSpace(strings.TrimPrefix(line, "module"))
 				if cfg.Repository.ImportPath == "" {
@@ -207,7 +220,12 @@ func autoDetectRepo(cfg *Config, projectPath string) error {
 						}
 					}
 				}
-				break
+			} else if strings.HasPrefix(line, "go ") && cfg.Metadata.GoVersion == "" {
+				// Extract Go version from "go 1.24" format
+				goVersion := strings.TrimSpace(strings.TrimPrefix(line, "go"))
+				if goVersion != "" {
+					cfg.Metadata.GoVersion = goVersion
+				}
 			}
 		}
 	}
@@ -225,6 +243,11 @@ func validateAndSetDefaults(cfg *Config) error {
 	// Ensure required fields are set
 	if cfg.Repository.Name == "" {
 		return fmt.Errorf("repository name is required")
+	}
+
+	// Set default Go version if not set
+	if cfg.Metadata.GoVersion == "" {
+		cfg.Metadata.GoVersion = "1.21"
 	}
 
 	return nil

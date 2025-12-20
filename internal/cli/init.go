@@ -108,8 +108,9 @@ func createDefaultConfig(projectPath string) *config.Config {
 			},
 		},
 		Metadata: config.Metadata{
-			Version: "latest",
-			License: "MIT",
+			Version:   "latest",
+			GoVersion: "1.21",
+			License:   "MIT",
 		},
 		Generation: config.Generation{
 			DateFormat:             "2006-01-02",
@@ -134,6 +135,7 @@ func autoDetectProjectInfo(cfg *config.Config, projectPath string) error {
 		if data, err := os.ReadFile(goModPath); err == nil {
 			lines := strings.Split(string(data), "\n")
 			for _, line := range lines {
+				line = strings.TrimSpace(line)
 				if strings.HasPrefix(line, "module ") {
 					modulePath := strings.TrimSpace(strings.TrimPrefix(line, "module"))
 					cfg.Repository.ImportPath = modulePath
@@ -146,7 +148,12 @@ func autoDetectProjectInfo(cfg *config.Config, projectPath string) error {
 							cfg.Repository.Name = parts[2]
 						}
 					}
-					break
+				} else if strings.HasPrefix(line, "go ") && cfg.Metadata.GoVersion == "" {
+					// Extract Go version from "go 1.24" format
+					goVersion := strings.TrimSpace(strings.TrimPrefix(line, "go"))
+					if goVersion != "" {
+						cfg.Metadata.GoVersion = goVersion
+					}
 				}
 			}
 		}

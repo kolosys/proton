@@ -41,6 +41,21 @@ type PackageContext struct {
 	Package *discovery.PackageInfo `json:"package"`
 }
 
+// BenchmarkContext provides benchmark-specific data for template rendering
+type BenchmarkContext struct {
+	*PackageContext
+	Benchmarks []*BenchmarkResult `json:"benchmarks"`
+}
+
+// BenchmarkResult represents benchmark data for template rendering
+type BenchmarkResult struct {
+	Name        string `json:"name"`
+	NsPerOp     int64  `json:"ns_per_op"`
+	BytesPerOp  int64  `json:"bytes_per_op"`
+	AllocsPerOp int64  `json:"allocs_per_op"`
+	Runs        int    `json:"runs"`
+}
+
 // New creates a new template engine
 func New(cfg *config.Config, projectPath string) (*Engine, error) {
 	engine := &Engine{
@@ -81,6 +96,7 @@ func (e *Engine) loadBuiltinTemplates() error {
 		"advanced-performance",
 		"advanced-best-practices",
 		"api-reference",
+		"benchmarks",
 	}
 
 	for _, name := range templateNames {
@@ -249,24 +265,24 @@ func (e *Engine) formatValueDeclaration(v *doc.Value) string {
 
 	var buf bytes.Buffer
 	fset := token.NewFileSet()
-	
+
 	// Print each spec in the declaration
 	for i, spec := range v.Decl.Specs {
 		if i > 0 {
 			buf.WriteString("\n")
 		}
-		
+
 		// Create a temporary declaration with just this spec
 		decl := &ast.GenDecl{
 			Tok:   v.Decl.Tok,
 			Specs: []ast.Spec{spec},
 		}
-		
+
 		if err := printer.Fprint(&buf, fset, decl); err != nil {
 			return fmt.Sprintf("// Error formatting declaration: %v", err)
 		}
 	}
-	
+
 	return buf.String()
 }
 

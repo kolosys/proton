@@ -15,6 +15,7 @@
 - **🔧 Configurable Output** - Flexible output directory and structure configuration
 - **📝 API Documentation** - Generate detailed API reference from Go comments
 - **💡 Examples & Guides** - Auto-extract examples and generate comprehensive guides
+- **⚡ Benchmark Documentation** - Run benchmarks and generate performance documentation automatically
 - **🔍 Smart Parsing** - Parse Go AST to extract documentation, types, and examples
 - **✅ Configuration Validation** - Validate your configuration before generation
 - **🧹 Smart Preservation** - Only regenerates API reference and examples, preserves all other documentation
@@ -88,6 +89,19 @@ proton generate --output my-docs
 proton generate --config custom-config.yml
 ```
 
+### 4. Run Benchmarks (Optional)
+
+```bash
+# Run benchmarks for entire project
+proton benchmark
+
+# Run benchmarks for specific package
+proton benchmark ./internal/cli
+
+# Save benchmark results to file
+proton benchmark --output benchmark_results.txt
+```
+
 ## ⚙️ Configuration
 
 Proton uses a YAML configuration file (`.proton/config.yml`) to customize documentation generation:
@@ -120,6 +134,11 @@ discovery:
     enabled: true
     auto_discover: true
 
+  benchmarks:
+    enabled: true
+    pattern: "./..."
+    # Optional: load from file instead of running
+    # output_file: "benchmark_results.txt"
 ```
 
 ### Configuration Schema
@@ -143,6 +162,8 @@ docs/
 ├── examples/
 │   └── [example-category]/
 │       └── [example-name].md
+├── benchmarks/
+│   └── [package-name].md
 ```
 
 ## 🎨 Templates
@@ -153,6 +174,7 @@ Proton comes with built-in templates that work great out of the box, but you can
 
 - `api-reference.md` - API reference documentation
 - `examples.md` - Examples documentation
+- `benchmarks.md` - Benchmark performance documentation
 
 ### Custom Templates
 
@@ -215,6 +237,53 @@ Proton comes with built-in templates that work great out of the box, but you can
 | `token`            | GitHub token for auth      | `${{ github.token }}`                      |
 
 ### Selective Cleaning
+
+## ⚡ Benchmarks
+
+Proton can automatically run benchmarks and generate performance documentation for your packages.
+
+### Running Benchmarks
+
+Run benchmarks manually using the `benchmark` command:
+
+```bash
+# Run benchmarks for entire project
+proton benchmark
+
+# Run benchmarks for specific package
+proton benchmark ./internal/cli
+
+# Save results to file for later use
+proton benchmark --output benchmark_results.txt
+```
+
+### Generating Benchmark Documentation
+
+Enable benchmark generation in your configuration:
+
+```yaml
+discovery:
+  benchmarks:
+    enabled: true
+    pattern: "./..."
+    # Optional: load from pre-generated file instead of running
+    # output_file: "benchmark_results.txt"
+```
+
+When you run `proton generate`, it will:
+
+1. Execute `go test -bench=. -benchmem` for your packages (or load from file)
+2. Parse benchmark results (ns/op, B/op, allocs/op)
+3. Generate `docs/benchmarks/{package-name}.md` files with performance metrics
+
+### Benchmark Output Format
+
+Each benchmark file includes:
+
+- Summary table of all benchmarks
+- Detailed breakdown for each benchmark
+- Instructions for adding benchmarks if none exist
+- Links to related documentation
 
 ## 📖 Examples
 
@@ -301,7 +370,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - 📄 [Documentation](docs/)
 - 🐛 [Issue Tracker](https://github.com/kolosys/proton/issues)
 - 💬 [Discussions](https://github.com/kolosys/proton/discussions)
-- 📧 [Contact](mailto:support@kolosys.com)
 
 ---
 
