@@ -31,7 +31,6 @@ discovery:
   benchmarks:
     enabled: true
     pattern: "./..."
-    output_file: "benchmark_results.txt"
 templates:
   directory: ""
   custom_templates: []
