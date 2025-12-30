@@ -10,22 +10,22 @@ The following benchmarks were run using `go test -bench=. -benchmem`:
 
 | Benchmark | ns/op | B/op | allocs/op |
 | --------- | ----- | ---- | --------- |
-| `ConfigLoad-4` | 255290 | 58167 | 884 |
-| `ConfigSave-4` | 269458 | 83169 | 218 |
+| `ConfigLoad-4` | 228871 | 59769 | 899 |
+| `ConfigSave-4` | 178427 | 83249 | 223 |
 
 ### ConfigLoad-4
 
-- **Nanoseconds per operation:** 255290 ns/op
-- **Bytes allocated per operation:** 58167 B/op
-- **Allocations per operation:** 884 allocs/op
-- **Number of runs:** 5073
+- **Nanoseconds per operation:** 228871 ns/op
+- **Bytes allocated per operation:** 59769 B/op
+- **Allocations per operation:** 899 allocs/op
+- **Number of runs:** 5107
 
 ### ConfigSave-4
 
-- **Nanoseconds per operation:** 269458 ns/op
-- **Bytes allocated per operation:** 83169 B/op
-- **Allocations per operation:** 218 allocs/op
-- **Number of runs:** 3850
+- **Nanoseconds per operation:** 178427 ns/op
+- **Bytes allocated per operation:** 83249 B/op
+- **Allocations per operation:** 223 allocs/op
+- **Number of runs:** 6836
 
 ## Running Benchmarks
 

@@ -400,6 +400,7 @@ packages := Packages{
     AutoDiscover: true,
     IncludePatterns: [],
     ExcludePatterns: [],
+    SkipInternal: true,
     ManualPackages: [],
 }
 ```
@@ -411,6 +412,7 @@ type Packages struct {
     AutoDiscover bool `yaml:"auto_discover" mapstructure:"auto_discover"`
     IncludePatterns []string `yaml:"include_patterns" mapstructure:"include_patterns"`
     ExcludePatterns []string `yaml:"exclude_patterns" mapstructure:"exclude_patterns"`
+    SkipInternal bool `yaml:"skip_internal" mapstructure:"skip_internal"`
     ManualPackages []Package `yaml:"manual_packages" mapstructure:"manual_packages"`
 }
 ```
@@ -422,6 +424,7 @@ type Packages struct {
 | AutoDiscover | `bool` |  |
 | IncludePatterns | `[]string` |  |
 | ExcludePatterns | `[]string` |  |
+| SkipInternal | `bool` |  |
 | ManualPackages | `[]Package` |  |
 
 ### Repository
