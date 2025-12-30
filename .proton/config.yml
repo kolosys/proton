@@ -18,6 +18,7 @@ discovery:
       - ./test/...
       - ./.git/...
       - "**/*_test.go"
+    skip_internal: false
     manual_packages: []
   api_generation:
     enabled: true

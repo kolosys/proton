@@ -47,6 +47,7 @@ type Packages struct {
 	AutoDiscover    bool      `yaml:"auto_discover" mapstructure:"auto_discover"`
 	IncludePatterns []string  `yaml:"include_patterns" mapstructure:"include_patterns"`
 	ExcludePatterns []string  `yaml:"exclude_patterns" mapstructure:"exclude_patterns"`
+	SkipInternal    bool      `yaml:"skip_internal" mapstructure:"skip_internal"`
 	ManualPackages  []Package `yaml:"manual_packages" mapstructure:"manual_packages"`
 }
 
@@ -170,6 +171,7 @@ func setDefaults(v *viper.Viper) {
 	v.SetDefault("discovery.packages.auto_discover", true)
 	v.SetDefault("discovery.packages.include_patterns", []string{"./..."})
 	v.SetDefault("discovery.packages.exclude_patterns", []string{"./vendor/...", "./test/..."})
+	v.SetDefault("discovery.packages.skip_internal", false)
 
 	v.SetDefault("discovery.api_generation.enabled", true)
 	v.SetDefault("discovery.api_generation.include_unexported", false)

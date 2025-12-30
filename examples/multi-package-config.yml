@@ -24,6 +24,8 @@ discovery:
       - "./test/..."
       - "./internal/private/..."
       - "./cmd/*/testdata/..."
+    # Skip all internal packages automatically (alternative to exclude_patterns)
+    # skip_internal: true
 
     # You can also manually specify packages for better control
     manual_packages:

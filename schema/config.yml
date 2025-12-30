@@ -17,6 +17,7 @@ discovery:
     auto_discover: boolean    # Auto-discover packages (default: true)
     include_patterns: []string # Patterns to include (e.g., ["./...", "./internal/..."])
     exclude_patterns: []string # Patterns to exclude (e.g., ["./test/...", "./vendor/..."])
+    skip_internal: boolean   # Skip packages in internal/ directories (default: false)
     manual_packages: []object  # Manual package definitions
       - name: string
         path: string

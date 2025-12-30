@@ -199,6 +199,11 @@ func (d *Discoverer) autoDiscoverPackages() ([]*PackageInfo, error) {
 
 // shouldExcludePackage checks if a package should be excluded based on patterns
 func (d *Discoverer) shouldExcludePackage(pkgPath string) bool {
+	// Check if internal packages should be skipped
+	if d.config.Discovery.Packages.SkipInternal && strings.Contains(pkgPath, "/internal/") {
+		return true
+	}
+
 	for _, pattern := range d.config.Discovery.Packages.ExcludePatterns {
 		if matched, _ := filepath.Match(pattern, pkgPath); matched {
 			return true
